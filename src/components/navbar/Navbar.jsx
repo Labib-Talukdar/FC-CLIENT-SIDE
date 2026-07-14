@@ -1,12 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart, Search, Menu, X } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
+import Logo from '../../pages/logo/Logo';
+ 
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { totalItems, setIsCartOpen } = useCart();
+  
+  // ================= 📜 স্মার্ট স্ক্রল স্টেট ও লজিক =================
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+ 
 
-  // আপনার দেওয়া নিখুঁত ক্যাটাগরি লিস্ট
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // ১০০ পিক্সেলের নিচে না নামা পর্যন্ত ন্যাভবার হাইড হবে না
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY) {
+          // নিচে স্ক্রল করলে হাইড হবে
+          setIsVisible(false);
+        } else {
+          // উপরে স্ক্রল করলে শো হবে
+          setIsVisible(true);
+        }
+      } else {
+        // একদম ওপরে থাকলে সবসময় শো থাকবে
+        setIsVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  // ক্যাটাগরি লিস্ট
   const menuCategories = [
     "Organza Items",
     "Chiffon Items",
@@ -18,104 +51,147 @@ const Navbar = () => {
     "Kids Collections"
   ];
 
-  // ন্যাভবারে ক্লিক করলে কালেকশন পেজে কুয়েরি প্যারামিটারসহ পাঠিয়ে দেবে
   const handleCategoryClick = (category) => {
     setIsMobileMenuOpen(false);
-    // শপ/কালেকশন পেজের রাউট যদি '/collections' বা '/shop' হয়, সেই অনুযায়ী পাথ দিন
     navigate(`/collection?category=${encodeURIComponent(category)}`);
   };
 
   return (
-    <nav className="w-full bg-white font-sans text-gray-900 border-b border-gray-100 sticky top-0 z-50">
-      
-      {/* ================= টপ লেভেল (Logo, Search & Icons) ================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20 relative">
-          
-          {/* মোবাইল মেনু বাটন (Left on Mobile) */}
-          <div className="flex items-center md:hidden">
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-              className="text-gray-700 hover:text-black focus:outline-none"
-            >
-              {isMobileMenuOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
-            </button>
-          </div>
-
-          {/* ফাকা ডিভ (ডেস্কটপে বামপাশ ব্যালেন্স করার জন্য) */}
-          <div className="hidden md:block w-64"></div>
-
-          {/* সেন্টারড লাক্সারি লোগো (হুবহু স্ক্রিনশটের মতো ফিল) */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 text-center cursor-pointer" onClick={() => navigate('/')}>
-            <h1 className="text-2xl sm:text-3xl tracking-[0.25em] font-light text-[#cda052] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
-              AGHA <span className="font-medium text-[#b5832a]">NOOR</span>
-            </h1>
-            <div className="w-6 h-[1px] bg-[#b5832a] mx-auto mt-0.5"></div>
-          </div>
-
-          {/* ডানের সেকশন: আন্ডারলাইনড সার্চ বার এবং আইকনস */}
-          <div className="flex items-center space-x-6">
-            {/* মিনিমালিস্ট সার্চ ইনপুট (স্ক্রিনশটের মতো হুবহু আন্ডারলাইনড) */}
-            <div className="relative border-b border-gray-400 pb-1 hidden lg:flex items-center w-48">
-              <input 
-                type="text" 
-                placeholder="Search" 
-                className="bg-transparent text-xs tracking-wider outline-none w-full pr-6 text-gray-700 placeholder-gray-400"
-              />
-              <Search size={15} strokeWidth={1.5} className="text-gray-500 absolute right-0 bottom-1" />
+    <>
+      <nav 
+        className={`w-full bg-white font-sans text-gray-900 border-b border-gray-100 sticky top-0 z-50 transition-transform duration-300 ease-in-out ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        {/* ================= টপ লেভেল (Logo, Search & Icons) ================= */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20 relative">
+            
+            {/* মোবাইল মেনু বাটন (৩ বার আইকন) */}
+            <div className="flex items-center md:hidden">
+              <button 
+                onClick={() => setIsMobileMenuOpen(true)} 
+                className="text-gray-700 hover:text-black focus:outline-none p-1"
+              >
+                <Menu size={24} strokeWidth={1.5} />
+              </button>
             </div>
 
-            {/* উইশলিস্ট হার্ট আইকন */}
-            <button className="text-gray-700 hover:text-black transition-colors p-1 hidden sm:block">
-              <Heart size={20} strokeWidth={1.2} />
-            </button>
+            {/* ফাকা ডিভ (ডেস্কটপে বামপাশ ব্যালেন্স করার জন্য) */}
+            <div className="hidden md:block w-64"></div>
 
-            {/* শপিং ব্যাগ/কার্ট আইকন উইথ ব্যাজ */}
-            <button className="text-gray-700 hover:text-black transition-colors p-1 relative">
-              <ShoppingBag size={20} strokeWidth={1.2} />
-              <span className="absolute -top-1 -right-1 bg-neutral-900 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-mono font-light">
-                
-              </span>
-            </button>
-          </div>
+            {/* 🎯 লোগো কন্টেইনার - একদম সেন্টারড পজিশন উইথ ইমেজ লোগো */}
+            <div 
+              
+              onClick={() => navigate('/')}
+            >
+              <div className=" ">
+                <Logo></Logo>
+              </div>
+              <div className="w-8 h-[1.5px] bg-[#b5832a] mx-auto mt-0.5 transition-all duration-300 group-hover:w-14"></div>
+            </div>
 
-        </div>
-      </div>
+            {/* ডানের সেকশন: সার্চ বার এবং আইকনস */}
+            <div className="flex items-center space-x-4 sm:space-x-6">
+              {/* মিনিমালিস্ট সার্চ ইনপুট */}
+              <div className="relative border-b border-gray-400 pb-1 hidden lg:flex items-center w-48">
+                <input 
+                  type="text" 
+                  placeholder="Search" 
+                  className="bg-transparent text-xs tracking-wider outline-none w-full pr-6 text-gray-700 placeholder-gray-400"
+                />
+                <Search size={15} strokeWidth={1.5} className="text-gray-500 absolute right-0 bottom-1" />
+              </div>
 
-      {/* ================= বটম লেভেল (সেন্টারড মেনু আইটেমস - ডেস্কটপ) ================= */}
-      <div className="hidden md:block border-t border-gray-50 py-3.5 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap justify-center items-center gap-x-6 lg:gap-x-10 gap-y-2">
-            {menuCategories.map((category) => (
-              <button
-                key={category}
-                onClick={() => handleCategoryClick(category)}
-                className="text-[11px] lg:text-[12px] font-medium uppercase tracking-[0.15em] text-gray-800 hover:text-[#b5832a] transition-colors relative group duration-300 whitespace-nowrap"
-              >
-                {category}
-                {/* নিচে হালকা হোভার অ্যানিমেশন লাইন */}
-                <span className="absolute bottom-[-4px] left-1/2 w-0 h-[1.5px] bg-[#b5832a] transition-all group-hover:w-full group-hover:left-0"></span>
+              {/* উইশলিস্ট হার্ট আইকন */}
+              <button className="text-gray-700 hover:text-black transition-colors p-1 hidden sm:block">
+                <Heart size={20} strokeWidth={1.2} />
               </button>
-            ))}
+
+              {/* শপিং ব্যাগ/কার্ট আইকন উইথ ব্যাজ */}
+              <button 
+                onClick={() => setIsCartOpen(true)} 
+                className="text-gray-700 hover:text-black transition-colors p-1 relative focus:outline-none"
+              >
+                <ShoppingBag size={21} strokeWidth={1.3} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-neutral-900 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </div>
+
           </div>
         </div>
-      </div>
 
-      {/* মোবাইল ড্রপডাউন মেনু */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-6 py-4 space-y-3 shadow-inner animate-fadeIn">
+        {/* ================= বটম মেনু (ডেস্কটপ) - আইটেমগুলোর সাইজ বড় করা হয়েছে ================= */}
+        <div className="hidden md:block border-t border-gray-50 py-4 bg-white">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex flex-wrap justify-center items-center gap-x-8 lg:gap-x-12 gap-y-2">
+              {menuCategories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryClick(category)}
+                  // 🎯 ফন্ট সাইজ বাড়িয়ে text-[13px] করা হয়েছে এবং ট্র্যাকিং বাড়ানো হয়েছে
+                  className="text-[12px] lg:text-[13px] font-bold uppercase tracking-[0.18em] text-neutral-800 hover:text-[#b5832a] transition-colors relative group duration-300 whitespace-nowrap"
+                >
+                  {category}
+                  <span className="absolute bottom-[-5px] left-1/2 w-0 h-[1.5px] bg-[#b5832a] transition-all group-hover:w-full group-hover:left-0"></span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* ================= 📱 স্লাইডিং মোবাইল সাইডবার মেনু ================= */}
+      {/* ব্যাকড্রপ ওভারলে */}
+      <div
+        onClick={() => setIsMobileMenuOpen(false)}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-300 z-50 md:hidden ${
+          isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* বাম দিক থেকে স্লাইড হওয়া ড্রয়ার প্যানেল */}
+      <div
+        className={`fixed top-0 left-0 h-full w-[280px] bg-white shadow-2xl z-50 transition-transform duration-300 ease-out flex flex-col md:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* সাইডবার হেডার */}
+        <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-neutral-50">
+          <span className="text-xs uppercase font-bold tracking-widest text-neutral-500">Menu</span>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-gray-400 hover:text-black p-1 focus:outline-none"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* মোবাইল ক্যাটাগরি লিস্ট */}
+        <div className="flex-1 overflow-y-auto px-5 py-4 space-y-1">
           {menuCategories.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryClick(category)}
-              className="block w-full text-left text-xs font-medium tracking-widest uppercase text-gray-700 hover:text-[#b5832a] py-1.5 border-b border-gray-50"
+              className="block w-full text-left text-[13px] font-medium tracking-widest uppercase text-neutral-700 hover:text-[#b5832a] hover:bg-neutral-50/80 px-3 py-3 rounded-sm transition-all border-b border-neutral-50/60 last:border-0"
             >
               {category}
             </button>
           ))}
         </div>
-      )}
-    </nav>
+
+        {/* সাইডবার ফুটার */}
+        <div className="p-5 border-t border-gray-100 text-center bg-neutral-50">
+          <p className="text-[10px] text-gray-400 uppercase tracking-widest">✨ Luxury Clothing Brand</p>
+        </div>
+
+ 
+      </div>
+    </>
   );
 };
 

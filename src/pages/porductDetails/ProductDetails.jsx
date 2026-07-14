@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../../context/CartContext";
+import CartSidebar from "../../components/cartsidebar/cardSidebar";
+import Navbar from "../../components/navbar/Navbar";
 
 const ProductDetails = () => {
   const { id } = useParams(); 
@@ -10,6 +13,7 @@ const ProductDetails = () => {
   const [activeImage, setActiveImage] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+  const {addToCart} = useCart();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -39,7 +43,8 @@ const ProductDetails = () => {
       alert("Please select both Size and Color!");
       return;
     }
-    alert(`Successfully Added!\nProduct: ${product.title}\nSize: ${selectedSize}\nColor: ${selectedColor}`);
+    // alert(`Successfully Added!\nProduct: ${product.title}\nSize: ${selectedSize}\nColor: ${selectedColor}`);
+    addToCart(product, selectedColor,selectedSize)
   };
 
   if (loading) {
@@ -65,8 +70,10 @@ const ProductDetails = () => {
   ].filter(Boolean);
 
   return (
-    
+    <div>
+      <Navbar></Navbar>
     <div className="max-w-7xl mx-auto px-4 py-12 font-sans text-gray-900 bg-white">
+      
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         
         {/* IMAGE GALLERY */}
@@ -150,16 +157,16 @@ const ProductDetails = () => {
           )}
 
           {/* DESCRIPTION */}
-          {product.description && (
+          {product.fabric&& (
             <div className="text-gray-600 text-xs leading-relaxed tracking-wide space-y-2 border-b border-gray-100 pb-6">
               <h3 className="text-xs font-bold uppercase tracking-widest text-gray-700 mb-2">Product Description</h3>
-              <p className="whitespace-pre-line">{product.description}</p>
+              <p className="whitespace-pre-line">{product.fabric}</p>
             </div>
           )}
 
           <div className="pt-2">
             <button
-              onClick={handleAddToCart}
+              onClick={() => {addToCart(product,selectedSize,selectedColor,)}}
               className="w-full bg-neutral-900 text-white text-xs tracking-[0.2em] uppercase py-4 font-medium hover:bg-black transition-colors duration-300 shadow-sm"
             >
               Add to Cart
@@ -168,7 +175,9 @@ const ProductDetails = () => {
         </div>
 
       </div>
+      <CartSidebar></CartSidebar>
     </div>
+     </div>
   );
 };
 
