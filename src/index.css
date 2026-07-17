@@ -1,1 +1,14 @@
- 
+@keyframes navLinkFade {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-navLink {
+  animation: navLinkFade 0.6s cubic-bezier(0.215, 0.610, 0.355, 1);
+}

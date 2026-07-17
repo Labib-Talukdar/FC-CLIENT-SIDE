@@ -9,6 +9,7 @@ import CheckOut from "../pages/Checkout/CheckOut";
 import Logo from "../pages/logo/Logo";
 import ImgBanner from "../pages/logo/ImgBanner";
 import Footer from "../components/foter/Footer";
+import MdCollection from "../pages/collections/MdCollection";
 
  
 
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
         children: [
              
             {path: 'banner', element: <ImgBanner></ImgBanner>},
+            {path:'md-collection', element: <MdCollection></MdCollection>},
             
             {path:'logo', element: <Logo></Logo>},
             {path: '/footer', element: <Footer></Footer>}
