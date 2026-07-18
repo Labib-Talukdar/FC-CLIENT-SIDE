@@ -1,5 +1,5 @@
 import React from 'react';
-import Collection from '../pages/collections/collection';
+import Collection from '../pages/collections/Collection';
 import Navbar from '../components/navbar/Navbar';
 import { Outlet } from 'react-router-dom';
 
