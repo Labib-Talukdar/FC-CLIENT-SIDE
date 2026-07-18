@@ -1,4 +1,3 @@
-
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 // import { useCart } from "../../context/CartContext";
@@ -86,8 +85,6 @@
 
 //     fetchProducts();
 //   }, [selectedColors, selectedSizes, selectedCategory]);
-
- 
 
 //   const handleAddToCart = (product) => {
 //     // 🎯 শুধু মাত্র এই প্রোডাক্টের জন্য সিলেক্ট করা সাইজ এবং কালার চেক হবে
@@ -279,15 +276,14 @@
 //                     className="group flex flex-col bg-white relative"
 //                   >
 //                     {/* ইমেজ এবং কুইক অ্যাড এরিয়া */}
- 
 
 //                     <div className="relative aspect-[3/4] bg-gray-50 overflow-hidden mb-3 border border-gray-100">
 //                       {/* মূল প্রোডাক্ট ইমেজ - সরাসরি ক্লিক করলে ডিটেইলস পেজে যাবে */}
 //                       <img
-//                         src={`http://localhost:5000${product.mainImage}`}
+//                         src={`${import.meta.env.VITE_API_URL}${product.mainImage}`}
 //                         alt={product.title}
 //                         onClick={() => navigate(`/product/${product._id}`)}
- 
+
 //                         className="w-full h-full object-cover object-top cursor-pointer transform group-hover:scale-[1.02] transition-transform duration-700 ease-out"
 
 //                       />
@@ -315,8 +311,7 @@
 //       }`}
 //     >
 //       {product.inStock === false ? "Sold Out" : "Quick Add"}
-                        
-                          
+
 //                         </button>
 //                       )}
 
@@ -416,87 +411,6 @@
 
 // export default Collection;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
@@ -518,7 +432,7 @@ const Collection = () => {
     searchParams.get("category") || "",
   );
   const [categories, setCategories] = useState([]);
-  
+
   // 📱 মোবাইল সাইডবার ওপেন/ক্লোজ করার স্টেট
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -633,7 +547,14 @@ const Collection = () => {
   };
 
   const filterColors = [
-    "Red", "Maroon", "Black", "White", "Emerald Green", "Navy Blue", "Pink", "Mustard"
+    "Red",
+    "Maroon",
+    "Black",
+    "White",
+    "Emerald Green",
+    "Navy Blue",
+    "Pink",
+    "Mustard",
   ];
   const filterSizes = ["XS", "S", "M", "L", "XL", "Unstitched"];
 
@@ -658,7 +579,9 @@ const Collection = () => {
           <span className="flex items-center gap-2">
             <FiFilter size={14} /> Filter By
           </span>
-          {(selectedColors.length > 0 || selectedSizes.length > 0 || selectedCategory) && (
+          {(selectedColors.length > 0 ||
+            selectedSizes.length > 0 ||
+            selectedCategory) && (
             <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
           )}
         </button>
@@ -667,7 +590,7 @@ const Collection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* ================= 💻 ১. ডেক্সটপ ফিল্টার প্যানেল (বড় স্ক্রিনে ফিক্সড থাকবে) ================= */}
         <div className="hidden lg:block space-y-8 lg:sticky lg:top-6 h-fit bg-white">
-          <FilterContent 
+          <FilterContent
             selectedColors={selectedColors}
             selectedSizes={selectedSizes}
             selectedCategory={selectedCategory}
@@ -683,23 +606,27 @@ const Collection = () => {
 
         {/* ================= 📱 ২. মোবাইল রাইট সাইডবার ড্রয়ার (স্ক্রিনের ৭৫% জায়গা নিবে) ================= */}
         {/* ব্যাকড্রপ ওভারলে */}
-        <div 
+        <div
           className={`fixed inset-0 bg-black/40 z-50 transition-opacity duration-300 lg:hidden ${
-            isSidebarOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+            isSidebarOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
           }`}
           onClick={() => setIsSidebarOpen(false)}
         />
 
         {/* মেইন স্লাইড-আউট সাইডবার ড্রয়ার */}
-        <div className={`fixed top-0 right-0 h-full w-[75vw] sm:max-w-md bg-white z-50 shadow-2xl transition-transform duration-300 ease-in-out transform lg:hidden flex flex-col ${
-          isSidebarOpen ? "translate-x-0" : "translate-x-full"
-        }`}>
+        <div
+          className={`fixed top-0 right-0 h-full w-[75vw] sm:max-w-md bg-white z-50 shadow-2xl transition-transform duration-300 ease-in-out transform lg:hidden flex flex-col ${
+            isSidebarOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
           {/* সাইডবার হেডার */}
           <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100">
             <h2 className="text-xs font-bold uppercase tracking-widest text-gray-900 flex items-center gap-2">
               <FiFilter size={14} /> Filter By
             </h2>
-            <button 
+            <button
               onClick={() => setIsSidebarOpen(false)}
               className="w-8 h-8 rounded-full bg-neutral-50 flex items-center justify-center text-gray-500 hover:text-black transition-colors"
             >
@@ -709,11 +636,14 @@ const Collection = () => {
 
           {/* সাইডবারের ভেতরের ফিল্টার সামগ্রী */}
           <div className="flex-1 overflow-y-auto p-6 space-y-8">
-            <FilterContent 
+            <FilterContent
               selectedColors={selectedColors}
               selectedSizes={selectedSizes}
               selectedCategory={selectedCategory}
-              handleClearAll={() => { handleClearAll(); setIsSidebarOpen(false); }}
+              handleClearAll={() => {
+                handleClearAll();
+                setIsSidebarOpen(false);
+              }}
               categories={categories}
               handleCategoryChange={handleCategoryChange}
               filterColors={filterColors}
@@ -749,7 +679,7 @@ const Collection = () => {
                     {/* ইমেজ এবং কুইক অ্যাড এরিয়া */}
                     <div className="relative aspect-[3/4] bg-gray-50 overflow-hidden mb-3 border border-gray-100">
                       <img
-                        src={`http://localhost:5000${product.mainImage}`}
+                        src={`${import.meta.env.VITE_API_URL}${product.mainImage}`}
                         alt={product.title}
                         onClick={() => navigate(`/product/${product._id}`)}
                         className="w-full h-full object-cover object-top cursor-pointer transform group-hover:scale-[1.02] transition-transform duration-700 ease-out"
@@ -847,10 +777,11 @@ const Collection = () => {
                     </div>
 
                     {/* 👑 প্রোডাক্ট টাইটেল ও প্রাইস (আপনার রিকোয়ারমেন্ট অনুযায়ী সুন্দর বড় সাইজ করা হয়েছে) */}
+                    {/* 👑 প্রোডাক্ট টাইটেল ও প্রাইস */}
                     <div className="text-center px-2 py-3 space-y-1.5">
                       <h1
                         onClick={() => navigate(`/product/${product._id}`)}
-                        className="text-[16px] sm:text-[18px] md:text-[19px] font-medium text-gray-950 hover:text-[#b5832a] cursor-pointer truncate tracking-widest uppercase"
+                        className="text-[16px] sm:text-[18px] md:text-[19px] font-medium text-gray-950 hover:text-[#b5832a] cursor-pointer tracking-widest uppercase line-clamp-2 h-[50px] overflow-hidden min-h-[48px]"
                       >
                         {product.title}
                       </h1>
@@ -871,19 +802,28 @@ const Collection = () => {
 };
 
 // =========================================================================
-// 🎯 DRY (Don't Repeat Yourself) মেনে ফিল্টার সামগ্রী আলাদা কম্পোনেন্টে রাখা হলো
+//  ফিল্টার সামগ্রী আলাদা কম্পোনেন্টে রাখা হলো
 // =========================================================================
 const FilterContent = ({
-  selectedColors, selectedSizes, selectedCategory, handleClearAll,
-  categories, handleCategoryChange, filterColors, handleColorToggle,
-  filterSizes, handleSizeToggle
+  selectedColors,
+  selectedSizes,
+  selectedCategory,
+  handleClearAll,
+  categories,
+  handleCategoryChange,
+  filterColors,
+  handleColorToggle,
+  filterSizes,
+  handleSizeToggle,
 }) => (
   <>
     <div className="flex justify-between items-center border-b border-gray-200 pb-4">
       <h2 className="text-xs font-bold uppercase tracking-widest text-gray-900">
         Filter By
       </h2>
-      {(selectedColors.length > 0 || selectedSizes.length > 0 || selectedCategory) && (
+      {(selectedColors.length > 0 ||
+        selectedSizes.length > 0 ||
+        selectedCategory) && (
         <button
           onClick={handleClearAll}
           className="text-[11px] font-bold text-red-600 uppercase tracking-wider underline underline-offset-4 hover:text-red-700"
@@ -931,7 +871,9 @@ const FilterContent = ({
                 onChange={() => handleColorToggle(color)}
                 className="accent-black w-4 h-4 cursor-pointer"
               />
-              <span className={isChecked ? "font-bold text-black" : "text-gray-600"}>
+              <span
+                className={isChecked ? "font-bold text-black" : "text-gray-600"}
+              >
                 {color}
               </span>
             </label>

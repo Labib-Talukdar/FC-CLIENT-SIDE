@@ -3,9 +3,10 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // আপনার assets ফোল্ডার থেকে ছবিগুলো ইম্পোর্ট করুন
  
-   import image1 from '../../assets/banner-1.png'
+import image1 from '../../assets/banner-1.png'
  import image2 from '../../assets/banner-2.png'
  import image3 from '../../assets/banner-3.png'
+import { useNavigate } from 'react-router-dom';
 
 const AutoplaySlider = () => {
   const slides = [
@@ -15,6 +16,7 @@ const AutoplaySlider = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
   const timeoutRef = useRef(null);
   const delay = 3500; 
 
@@ -58,7 +60,8 @@ const AutoplaySlider = () => {
           <img
             src={slide.src}
             alt={slide.alt}
-            className="w-full h-full object-cover object-center" 
+            onClick={() => navigate('/collection')}
+            className="w-full h-full object-cover object-center cursor-pointer" 
           />
         </div>
       ))}

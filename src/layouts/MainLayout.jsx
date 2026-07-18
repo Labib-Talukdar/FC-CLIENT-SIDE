@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom';
 import ImgBanner from '../pages/logo/ImgBanner';
 import Footer from '../components/foter/Footer';
 import MdCollection from '../pages/collections/MdCollection';
+import TrendingNow from '../pages/collections/TrendingNow';
  
 
 const MainLayout = () => {
@@ -19,12 +20,13 @@ const MainLayout = () => {
             <Navbar />
     
           
-            <div className='pt-10 md:pt-10'>
+            <div className='pt-16 md:pt-10'>
                 
                 <Outlet />
                 
                 <ImgBanner></ImgBanner>
                 <MdCollection></MdCollection>
+                <TrendingNow></TrendingNow>
                 <Footer></Footer> 
             </div>
            
