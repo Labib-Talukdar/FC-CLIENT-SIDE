@@ -72,7 +72,7 @@ const Cart = () => {
                   <div className="col-span-1 sm:col-span-3 flex gap-4">
                     <div className="w-20 sm:w-24 aspect-[3/4] bg-gray-50 border border-gray-100 overflow-hidden flex-shrink-0">
                       <img
-                        src={`http://localhost:5000${item.mainImage}`}
+                        src={`VITE_API_URL${item.mainImage}`}
                         alt={item.title}
                         className="w-full h-full object-cover object-top"
                       />

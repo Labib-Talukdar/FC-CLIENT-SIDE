@@ -31,7 +31,7 @@
 //   useEffect(() => {
 //     const fetchProducts = async () => {
 //       try {
-//         const response = await axios.get('http://localhost:5000/api/products');
+//         const response = await axios.get('VITE_API_URL/api/products');
 //         if (response.data && response.data.data) {
 //           setProducts(response.data.data);
 //         } else if (Array.isArray(response.data)) {
@@ -352,7 +352,7 @@ const TrendingNow = () => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get('VITE_API_URL/api/products');
         if (response.data && response.data.data) {
           setProducts(response.data.data);
         } else if (Array.isArray(response.data)) {

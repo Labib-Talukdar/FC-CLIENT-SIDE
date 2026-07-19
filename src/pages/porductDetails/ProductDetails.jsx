@@ -20,7 +20,7 @@ const ProductDetails = () => {
       try {
         // 🎯 এখন ইউআরএল একদম ১০০% পারফেক্ট (ব্যাকএন্ডে /:id রুট যোগ করার পর)
         const response = await axios.get(
-          `http://localhost:5000/api/products/single/${id}`,
+          `VITE_API_URL/api/products/single/${id}`,
         );
         const productData = response.data.data || response.data;
 
@@ -89,7 +89,7 @@ const ProductDetails = () => {
           <div className="lg:col-span-7 space-y-4">
             <div className="w-full aspect-[3/4] bg-gray-50 overflow-hidden border border-gray-100">
               <img
-                src={`http://localhost:5000${activeImage}`}
+                src={`VITE_API_URL${activeImage}`}
                 alt={product.title}
                 className="w-full font-extrabold h-full object-cover object-top transition-all duration-500"
               />
@@ -107,7 +107,7 @@ const ProductDetails = () => {
                   }`}
                 >
                   <img
-                    src={`http://localhost:5000${imgUrl}`}
+                    src={`VITE_API_URL${imgUrl}`}
                     alt={`Thumbnail ${index + 1}`}
                     className="w-full h-full object-cover object-top"
                   />

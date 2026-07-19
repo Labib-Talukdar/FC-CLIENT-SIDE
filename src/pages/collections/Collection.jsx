@@ -44,7 +44,7 @@ const Collection = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/products/categories",
+          "VITE_API_URLucts/categories",
         );
         setCategories(res.data.data);
       } catch (error) {
@@ -59,7 +59,7 @@ const Collection = () => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const url = "http://localhost:5000/api/products";
+        const url = "VITE_API_URL/api/products";
 
         const response = await axios.get(url, {
           params: {
