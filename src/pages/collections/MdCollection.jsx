@@ -42,7 +42,7 @@ const MdCollection = () => {
 
   return (
     
-    <div className="max-full mx-auto px-4 py-6">
+    <div className="max-full mx-auto px-4 py-6 bg-white">
      
       <h2 className="text-2xl md:text-3xl font-serif text-center text-gray-800 tracking-widest mb-10 uppercase">
         Shop By Category

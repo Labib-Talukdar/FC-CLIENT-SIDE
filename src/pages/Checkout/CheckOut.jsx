@@ -53,7 +53,7 @@ const Checkout = () => {
   if (cartItems.length === 0) {
     return (
         
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center bg-white">
         <p className="text-sm tracking-widest uppercase text-gray-400">Your cart is empty. Cannot checkout.</p>
         <button onClick={() => navigate("/")} className="mt-5 bg-black text-white px-6 py-3 text-xs uppercase tracking-wider">
           Go To Home
@@ -63,7 +63,7 @@ const Checkout = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-neutral-950 font-sans mt-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-neutral-950 font-sans mt-10 bg-white">
       <h1 className="text-2xl font-light tracking-widest uppercase text-center mb-12">Checkout</h1>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
