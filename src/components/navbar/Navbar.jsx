@@ -138,7 +138,7 @@ const Navbar = () => {
         }`}>
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex flex-wrap justify-center items-center gap-x-8 lg:gap-x-12 gap-y-2">
-              {menuCategories.map((category,index) => (
+              {menuCategories?.map((category,index) => (
                 <button
                   key={category}
                   onClick={() => handleCategoryClick(category)}
@@ -215,7 +215,7 @@ const Navbar = () => {
 
         {/* মোবাইল ক্যাটাগরি লিস্ট */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-1">
-          {menuCategories.map((category) => (
+          {menuCategories?.map((category) => (
             <button
               key={category}
               onClick={() => handleCategoryClick(category)}

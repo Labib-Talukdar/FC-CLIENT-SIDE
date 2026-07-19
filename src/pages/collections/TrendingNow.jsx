@@ -31,7 +31,7 @@
 //   useEffect(() => {
 //     const fetchProducts = async () => {
 //       try {
-//         const response = await axios.get('VITE_API_URL/api/products');
+//         const response = await axios.get('http://localhost:5174/VITE_API_URL/api/products');
 //         if (response.data && response.data.data) {
 //           setProducts(response.data.data);
 //         } else if (Array.isArray(response.data)) {
@@ -131,7 +131,7 @@
 //             }}
 //             className="w-full"
 //           >
-//             {displayProducts.map((product) => {
+//             {displayproducts?.map((product) => {
 //               const isQuickAddOpen = activeQuickAddId === product._id;
 
 //               return (
@@ -352,7 +352,7 @@ const TrendingNow = () => {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get('VITE_API_URL/api/products');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/products`);
         if (response.data && response.data.data) {
           setProducts(response.data.data);
         } else if (Array.isArray(response.data)) {

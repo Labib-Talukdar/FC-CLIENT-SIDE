@@ -83,7 +83,7 @@ const Footer = () => {
               Shop
             </h3>
             <ul className="space-y-2 text-[14px] lg:text-[17px] font-medium tracking-widest text-neutral-600">
-              {menuCategories.map((category) => (
+              {menuCategories?.map((category) => (
                 <li key={category}>
                   <a 
                     href={`/collection?category=${encodeURIComponent(category)}`}
