@@ -1,11 +1,10 @@
- 
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart, Search, Menu, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
-
-import Logo from '../../pages/logo/Logo';
+import logo from "../../assets/Fashion Classy.png"
+ 
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -90,7 +89,7 @@ const Navbar = () => {
             >
               <div className="transition-transform duration-300 group-hover:scale-105">
                 <img 
-                  src="/src/assets/Fashion Classy.png" 
+                  src={logo}
                   alt="Logo" 
                   className='w-28 h-24 md:w-52 md:h-48 bg-white bg-blend-normal mx-auto p-2 md:p-4 object-contain'
                 />
