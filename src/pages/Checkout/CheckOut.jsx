@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import API from "../../api";
 
 const Checkout = () => {
   const { cartItems, subtotal } = useCart();
   const navigate = useNavigate();
+
 
   // শিপিং ফর্মের স্টেট
   const [formData, setFormData] = useState({
@@ -28,7 +30,42 @@ const Checkout = () => {
   const grandTotal = subtotal + shippingCharge;
 
   // ফর্ম সাবমিট হ্যান্ডলার
-  const handleSubmit = (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+    
+  //   if (!formData.fullName || !formData.phone || !formData.fullAddress) {
+  //     alert("Please fill in all the required fields (Name, Phone, and Address)!");
+  //     return;
+  //   }
+
+  //   // অর্ডার ডাটা অবজেক্ট (এটি আপনার ব্যাকএন্ড API-তে পাঠানোর জন্য রেডি)
+  //   const orderDetails = {
+  //     customer: formData,
+  //     items: cartItems,
+  //     subtotal,
+  //     shippingCharge,
+  //     grandTotal,
+  //   };
+
+  //   try {
+  //     const response = await API.post('/api/orders/create', orderDetails);
+
+  //     if(response.data.success) {
+  //       alert("Order Placed successfully");
+  //       navigate('/');
+  //     }
+  //   } catch(error) {
+  //     console.log("order submission Error", error);
+  //     alert("Failed to place order. please try again.")
+  //   }
+
+  //   console.log("Order Placed Successfully:", orderDetails);
+  //   alert("Order submitted! We will contact you shortly.");
+  //   // এখানে আপনার ব্যাকএন্ডে অডিশনাল axios.post() কল করতে পারেন।
+  // };
+
+// ফর্ম সাবমিট হ্যান্ডলার
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!formData.fullName || !formData.phone || !formData.fullAddress) {
@@ -36,7 +73,7 @@ const Checkout = () => {
       return;
     }
 
-    // অর্ডার ডাটা অবজেক্ট (এটি আপনার ব্যাকএন্ড API-তে পাঠানোর জন্য রেডি)
+    // অর্ডার ডাটা অবজেক্ট
     const orderDetails = {
       customer: formData,
       items: cartItems,
@@ -45,10 +82,23 @@ const Checkout = () => {
       grandTotal,
     };
 
-    console.log("Order Placed Successfully:", orderDetails);
-    alert("Order submitted! We will contact you shortly.");
-    // এখানে আপনার ব্যাকএন্ডে অডিশনাল axios.post() কল করতে পারেন।
+    try {
+      // ✅ API রিকোয়েস্ট পাঠাচ্ছি
+      const response = await API.post('/api/orders/create', orderDetails);
+
+      if (response.data.success) {
+        alert("Order Placed successfully!");
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Order submission Error:", error);
+      alert("Failed to place order. Please try again.");
+    }
   };
+
+
+
+
 
   if (cartItems.length === 0) {
     return (
