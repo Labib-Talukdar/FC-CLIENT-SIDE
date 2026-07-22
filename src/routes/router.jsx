@@ -10,6 +10,10 @@ import Logo from "../pages/logo/Logo";
 import ImgBanner from "../pages/logo/ImgBanner";
 import Footer from "../components/foter/Footer";
 import MdCollection from "../pages/collections/MdCollection";
+import CustomerSupport from "../info/CustomerSupport";
+import ExchangePolicy from "../info/ExchangePolicy";
+import ShippingInfo from "../info/ShippingInfo";
+import TermsConditions from "../info/TermsConditions";
 
  
 
@@ -48,6 +52,23 @@ const router = createBrowserRouter([
         path: '/cart',
         element: <Cart></Cart>
     },
+    {
+        path:'/customer/support',
+        element: <CustomerSupport></CustomerSupport>
+    },
+    { 
+        path:'/exchange-policy',
+        element: <ExchangePolicy></ExchangePolicy>
+    },
+    {
+        path:'/shipping-info',
+        element: <ShippingInfo></ShippingInfo>
+    },
+    {
+        path: '/Terms-conditions',
+        element: <TermsConditions></TermsConditions>
+    }
+
  
     
   

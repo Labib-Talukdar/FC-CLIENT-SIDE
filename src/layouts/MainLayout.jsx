@@ -8,6 +8,8 @@ import ImgBanner from '../pages/logo/ImgBanner';
 import Footer from '../components/foter/Footer';
 import MdCollection from '../pages/collections/MdCollection';
 import TrendingNow from '../pages/collections/TrendingNow';
+import TopAnnouncementBar from '../components/announcement/TopAnnouncementBar';
+import FooterBannerCard from '../components/foter/FooterBannerCard';
  
 
 const MainLayout = () => {
@@ -18,7 +20,7 @@ const MainLayout = () => {
         <div>
              
             <Navbar />
-    
+            <TopAnnouncementBar></TopAnnouncementBar>
           
             <div className='pt-16 md:pt-10'>
                 
@@ -27,6 +29,7 @@ const MainLayout = () => {
                 <ImgBanner></ImgBanner>
                 <MdCollection></MdCollection>
                 <TrendingNow></TrendingNow>
+                <FooterBannerCard></FooterBannerCard>
                 <Footer></Footer> 
             </div>
            

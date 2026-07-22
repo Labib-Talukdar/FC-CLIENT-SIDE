@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Heart, Search, Menu, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import logo from "../../assets/Fashion Classy.png"
+import TopAnnouncementBar from '../announcement/TopAnnouncementBar';
  
 
 const Navbar = () => {
@@ -224,11 +225,17 @@ const Navbar = () => {
             </button>
           ))}
         </div>
-
+ 
         {/* সাইডবার ফুটার */}
         <div className="p-5 border-t border-gray-100 text-center bg-neutral-50">
           <p className="text-[10px] text-gray-400 uppercase tracking-widest">✨ Luxury Clothing Brand</p>
         </div>
+
+          
+
+          <TopAnnouncementBar></TopAnnouncementBar>
+
+
       </div>
     </>
   );

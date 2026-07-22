@@ -12,3 +12,33 @@
 .animate-navLink {
   animation: navLinkFade 0.6s cubic-bezier(0.215, 0.610, 0.355, 1);
 }
+
+
+
+
+
+
+
+@import "tailwindcss";
+
+/* 🎡 Marquee Keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* 🚀 Marquee Animation Class (স্লো এবং স্পষ্ট) */
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 35s linear infinite;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* মাউস হভার করলে লেখা থমে থাকবে যাতে কাস্টমার ভালোভাবে পড়তে পারে */
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

@@ -70,10 +70,10 @@ const Footer = () => {
             </h3>
             {/* 🎯 লিংকের টেক্সট বড় এবং গ্যাপ বাড়ানো হয়েছে */}
             <ul className="space-y-2 text-[14px] lg:text-[18px] font-medium tracking-widest text-neutral-600">
-              <li><a href="#" className="hover:text-[#b5832a] transition-colors block py-1">Customer Support</a></li>
-              <li><a href="#" className="hover:text-[#b5832a] transition-colors block py-1">Shipping Information</a></li>
-              <li><a href="#" className="hover:text-[#b5832a] transition-colors block py-1">Exchange Policy</a></li>
-              <li><a href="#" className="hover:text-[#b5832a] transition-colors block py-1">Terms And Conditions</a></li>
+              <li><a href="/customer/support" className="hover:text-[#b5832a] transition-colors block py-1">Customer Support</a></li>
+              <li><a href="/exchange-policy" className="hover:text-[#b5832a] transition-colors block py-1">Shipping Information</a></li>
+              <li><a href="/shipping-info" className="hover:text-[#b5832a] transition-colors block py-1">Exchange Policy</a></li>
+              <li><a href="/terms-conditions" className="hover:text-[#b5832a] transition-colors block py-1">Terms And Conditions</a></li>
             </ul>
           </div>
 
