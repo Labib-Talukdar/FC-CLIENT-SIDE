@@ -709,7 +709,7 @@ const Collection = () => {
     "Pink",
     "Mustard",
   ];
-  const filterSizes = ["XS", "S", "M", "L", "XL", "Unstitched"];
+  const filterSizes = ["XS / 34", "S / 36", "M / 38", "L / 40", "XL / 42", "XXL / 44"];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 font-sans text-gray-900 bg-white select-none">
