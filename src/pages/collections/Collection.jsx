@@ -1,5 +1,3 @@
- 
-
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 // import { useCart } from "../../context/CartContext";
@@ -500,63 +498,6 @@
 
 // export default Collection;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
@@ -709,7 +650,14 @@ const Collection = () => {
     "Pink",
     "Mustard",
   ];
-  const filterSizes = ["XS / 34", "S / 36", "M / 38", "L / 40", "XL / 42", "XXL / 44"];
+  const filterSizes = [
+    "XS / 34",
+    "S / 36",
+    "M / 38",
+    "L / 40",
+    "XL / 42",
+    "XXL / 44",
+  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 font-sans text-gray-900 bg-white select-none">
@@ -831,12 +779,30 @@ const Collection = () => {
                   >
                     {/* ইমেজ এবং কুইক অ্যাড এরিয়া */}
                     <div className="relative aspect-[3/4] bg-gray-50 overflow-hidden mb-3 border border-gray-100">
-                      <img
+                      {/* <img
                         src={`${import.meta.env.VITE_API_URL}${product.mainImage}`}
                         alt={product.title}
                         onClick={() => navigate(`/product/${product._id}`)}
                         className="w-full h-full object-cover object-top cursor-pointer transform group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-                      />
+                      /> */}
+
+                      <img
+  src={
+    !product?.mainImage
+      ? "https://placehold.co/300x400/png?text=No+Image"
+      : product.mainImage.startsWith("http")
+      ? product.mainImage // ১. যদি আগে থেকেই ফুল URL (Cloudinary বা অন্য লিংক) থাকে
+      : product.mainImage.startsWith("/")
+      ? `${import.meta.env.VITE_API_URL || 'https://fc-server-side.onrender.com'}${product.mainImage}` // ২. যদি আগে থেকেই শুরুতে / থাকে (যেমন: /uploads/abc.jpg)
+      : `${import.meta.env.VITE_API_URL || 'https://fc-server-side.onrender.com'}/${product.mainImage}` // ৩. যদি সাধারণ নাম বা uploads/abc.jpg থাকে
+  }
+  alt={product?.title || "Product Image"}
+  onError={(e) => {
+    e.currentTarget.onerror = null; 
+    e.currentTarget.src = "https://placehold.co/300x400/png?text=No+Image";
+  }}
+  className="w-full h-full object-cover object-top cursor-pointer transform group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+/>
 
                       {product.inStock === false && (
                         <span className="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-bold uppercase tracking-widest px-2 py-1 z-10">
@@ -859,7 +825,9 @@ const Collection = () => {
                               : "bg-black/80 text-white transform translate-y-full group-hover:translate-y-0 hover:bg-neutral-900"
                           }`}
                         >
-                          {product?.inStock === false ? "Sold Out" : "Quick Add"}
+                          {product?.inStock === false
+                            ? "Sold Out"
+                            : "Quick Add"}
                         </button>
                       )}
 
@@ -929,18 +897,27 @@ const Collection = () => {
                       )}
                     </div>
 
-                    {/* 👑 প্রোডাক্ট টাইটেল ও প্রাইস */}
+                
+
                     <div className="text-center px-2 py-3 space-y-1.5">
-                      <h1
-                        onClick={() => navigate(`/product/${product._id}`)}
-                        className="text-[16px] sm:text-[18px] md:text-[19px] font-medium text-gray-950 hover:text-[#b5832a] cursor-pointer tracking-widest uppercase line-clamp-2 h-[50px] overflow-hidden min-h-[48px]"
-                      >
-                        {product.title}
-                      </h1>
-                      <p className="text-[15px] sm:text-[16px] md:text-[17px] font-bold text-gray-900 tracking-wider">
-                        Tk. {product.price?.toLocaleString()}
-                      </p>
-                    </div>
+  <h1
+    onClick={() => navigate(`/product/${product._id}`)}
+    className="text-[16px] sm:text-[18px] md:text-[19px] font-medium text-gray-950 hover:text-[#b5832a] cursor-pointer tracking-widest uppercase line-clamp-2 h-[50px] overflow-hidden min-h-[48px]"
+  >
+    {product.title}
+  </h1>
+
+  {/* 🔹 SKU Code Added */}
+  {product.sku && (
+    <p className="text-[11px] sm:text-[12px] text-gray-500 font-medium tracking-wide uppercase">
+      SKU: {product.sku}
+    </p>
+  )}
+
+  <p className="text-[15px] sm:text-[16px] md:text-[17px] font-bold text-gray-900 tracking-wider">
+    Tk. {product.price?.toLocaleString()}
+  </p>
+</div>
                   </div>
                 );
               })}
