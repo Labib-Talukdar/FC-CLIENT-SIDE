@@ -2,6 +2,9 @@ import React from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
+import { getImageUrl } from "../utils/getImageUrl";
+import { get } from "react-hook-form";
+import Footer from "../../components/foter/Footer";
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, subtotal, totalItems } = useCart();
@@ -45,7 +48,7 @@ const Cart = () => {
                 {subtotal >= freeShippingLimit ? (
                   <span className="text-emerald-600 font-semibold">🎉 Congratulations! You qualify for free shipping.</span>
                 ) : (
-                  `Spend Rs. ${(freeShippingLimit - subtotal).toLocaleString()} more to get FREE SHIPPING!`
+                  `Spend Tk. ${(freeShippingLimit - subtotal).toLocaleString()} more to get FREE SHIPPING!`
                 )}
               </p>
               <div className="w-full h-1.5 bg-gray-200 rounded-full mt-2.5 overflow-hidden">
@@ -72,7 +75,8 @@ const Cart = () => {
                   <div className="col-span-1 sm:col-span-3 flex gap-4">
                     <div className="w-20 sm:w-24 aspect-[3/4] bg-gray-50 border border-gray-100 overflow-hidden flex-shrink-0">
                       <img
-                        src={`${import.meta.env.VITE_API_URL}${item.mainImage}`}
+                        // src={`${import.meta.env.VITE_API_URL}${item.mainImage}`}
+                        src={getImageUrl(item.mainImage)}
                         alt={item.title}
                         className="w-full h-full object-cover object-top"
                       />
@@ -119,7 +123,7 @@ const Cart = () => {
 
                   {/* টোটাল প্রাইস (ডেস্কটপে ডানে যাবে) */}
                   <div className="text-left sm:text-right text-sm font-semibold tracking-wider text-neutral-900">
-                    Rs. {(item.price * item.quantity).toLocaleString()}
+                    Tk. {(item.price * item.quantity).toLocaleString()}
                   </div>
 
                 </div>
@@ -136,7 +140,7 @@ const Cart = () => {
             <div className="space-y-4">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Subtotal</span>
-                <span className="font-semibold tracking-wider">Rs. {subtotal.toLocaleString()}</span>
+                <span className="font-semibold tracking-wider">Tk. {subtotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Shipping</span>
@@ -147,7 +151,7 @@ const Cart = () => {
               
               <div className="border-t border-gray-200 pt-4 flex justify-between items-baseline">
                 <span className="text-sm font-bold uppercase tracking-widest text-neutral-700">Total</span>
-                <span className="text-xl font-bold tracking-wider text-neutral-950">Rs. {subtotal.toLocaleString()}</span>
+                <span className="text-xl font-bold tracking-wider text-neutral-950">Tk. {subtotal.toLocaleString()}</span>
               </div>
             </div>
 
@@ -171,6 +175,7 @@ const Cart = () => {
         </div>
       )}
     </div>
+    <Footer></Footer>
    </div>
   );
 };

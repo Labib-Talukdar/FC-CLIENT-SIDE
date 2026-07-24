@@ -1,14 +1,17 @@
  
 
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
 import CartSidebar from "../../components/cartsidebar/cardSidebar";
 import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/foter/Footer";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,10 +24,8 @@ const ProductDetails = () => {
     const fetchProductDetails = async () => {
       setLoading(true);
       try {
-        // ✅ FIX: repeated localhost prefix ar literal "VITE_API_URL" text bad diye
-        // shudhu env variable ${import.meta.env.VITE_API_URL} diye interpolate kora holo
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/products/single/${id}`,
+          `${import.meta.env.VITE_API_URL}/api/products/single/${id}`
         );
         const productData = response.data?.data || response.data;
 
@@ -46,12 +47,22 @@ const ProductDetails = () => {
     fetchProductDetails();
   }, [id]);
 
+  // Add to Cart Handler
   const handleAddToCart = () => {
     if (!selectedSize || !selectedColor) {
       alert("Please select both Size and Color!");
-      return;
+      return false;
     }
     addToCart(product, selectedColor, selectedSize);
+    return true;
+  };
+
+  // Order Now Handler (Direct Checkout)
+  const handleOrderNow = () => {
+    const isAdded = handleAddToCart();
+    if (isAdded) {
+      navigate("/checkout"); // সরাসরি চেকআউট পেজে রিডাইরেক্ট করবে
+    }
   };
 
   if (loading) {
@@ -70,28 +81,37 @@ const ProductDetails = () => {
     );
   }
 
-  // 🚨 আপনার ব্যাকএন্ড রাউটার অনুযায়ী সাব-ইমেজের ফিল্ডের নাম galleryImages
   const galleryImages = [
     product.mainImage,
-    ...(product.galleryImages || []), // এখানে galleryImages ব্যবহার করা হলো
+    ...(product.galleryImages || []),
   ].filter(Boolean);
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <div className="max-w-7xl mx-auto px-4 py-12 font-sans text-gray-900 bg-white">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* IMAGE GALLERY */}
           <div className="lg:col-span-7 space-y-4">
+            {/* MAIN IMAGE CONTAINER */}
             <div className="w-full aspect-[3/4] bg-gray-50 overflow-hidden border border-gray-100">
               <img
-                // ✅ FIX: template literal e env variable properly interpolate kora holo
-                src={`${import.meta.env.VITE_API_URL}${activeImage}`}
+                src={
+                  !activeImage
+                    ? "https://via.placeholder.com/600x800?text=No+Image"
+                    : activeImage.startsWith("http")
+                    ? activeImage
+                    : `${import.meta.env.VITE_API_URL.replace(/\/$/, "")}/${activeImage.replace(/^\//, "")}`
+                }
                 alt={product.title}
-                className="w-full font-extrabold h-full object-cover object-top transition-all duration-500"
+                onError={(e) => {
+                  e.target.src = "https://via.placeholder.com/600x800?text=Image+Error";
+                }}
+                className="w-full h-full object-cover object-top transition-all duration-500"
               />
             </div>
 
+            {/* THUMBNAILS GRID */}
             <div className="grid grid-cols-4 gap-3">
               {galleryImages.map((imgUrl, index) => (
                 <div
@@ -104,9 +124,17 @@ const ProductDetails = () => {
                   }`}
                 >
                   <img
-                    // ✅ FIX: template literal e env variable properly interpolate kora holo
-                    src={`${import.meta.env.VITE_API_URL}${imgUrl}`}
+                    src={
+                      !imgUrl
+                        ? "https://via.placeholder.com/150?text=No+Image"
+                        : imgUrl.startsWith("http")
+                        ? imgUrl
+                        : `${import.meta.env.VITE_API_URL.replace(/\/$/, "")}/${imgUrl.replace(/^\//, "")}`
+                    }
                     alt={`Thumbnail ${index + 1}`}
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/150?text=Error";
+                    }}
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
@@ -120,8 +148,8 @@ const ProductDetails = () => {
               <h1 className="text-xl md:text-2xl font-normal tracking-wide text-gray-800 leading-tight">
                 {product.title}
               </h1>
-              <p className="text-lg font-bold text-gray-900 mt-3 tracking-wider">
-                Rs. {product.price?.toLocaleString()}
+              <p className="text-xl font-bold text-gray-900 mt-3 tracking-wider">
+                Tk. {product.price?.toLocaleString()}
               </p>
             </div>
 
@@ -133,7 +161,7 @@ const ProductDetails = () => {
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map((size) => {
-                    const isOutOfStock = product.inStock === false; // পুরো প্রোডাক্টই আউট অফ স্টক কি না
+                    const isOutOfStock = product.inStock === false;
                     const isSelected = selectedSize === size;
 
                     return (
@@ -141,14 +169,13 @@ const ProductDetails = () => {
                         key={size}
                         onClick={() => !isOutOfStock && setSelectedSize(size)}
                         disabled={isOutOfStock}
-                        className={`px-4 w-16 h-12 py-2 text-xs font-medium border transition-all tracking-wider uppercase relative
-              ${
-                isOutOfStock
-                  ? "text-gray-400 border-gray-300 bg-[linear-gradient(to_top_right,transparent_49%,#fca5a5_49%,#fca5a5_51%,transparent_51%)] cursor-not-allowed"
-                  : isSelected
-                    ? "bg-black text-white border-black font-bold"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-black"
-              }`}
+                        className={`px-4 w-16 h-12 py-2 text-xs font-medium border transition-all tracking-wider uppercase relative ${
+                          isOutOfStock
+                            ? "text-gray-400 border-gray-300 bg-[linear-gradient(to_top_right,transparent_49%,#fca5a5_49%,#fca5a5_51%,transparent_51%)] cursor-not-allowed"
+                            : isSelected
+                            ? "bg-black text-white border-black font-bold"
+                            : "bg-white text-gray-600 border-gray-200 hover:border-black"
+                        }`}
                       >
                         {size}
                       </button>
@@ -175,14 +202,13 @@ const ProductDetails = () => {
                         onClick={() =>
                           !isOutOfStockColor && setSelectedColor(color)
                         }
-                        className={`px-4 py-4 h-13 text-xs font-medium border transition-all tracking-wider uppercase relative
-              ${
-                isOutOfStockColor
-                  ? "text-gray-400 border-gray-300 bg-[linear-gradient(to_top_right,transparent_49%,#fca5a5_49%,#fca5a5_51%,transparent_51%)] cursor-not-allowed"
-                  : isSelected
-                    ? "bg-black text-white border-black font-bold"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-black"
-              }`}
+                        className={`px-4 py-4 h-13 text-xs font-medium border transition-all tracking-wider uppercase relative ${
+                          isOutOfStockColor
+                            ? "text-gray-400 border-gray-300 bg-[linear-gradient(to_top_right,transparent_49%,#fca5a5_49%,#fca5a5_51%,transparent_51%)] cursor-not-allowed"
+                            : isSelected
+                            ? "bg-black text-white border-black font-bold"
+                            : "bg-white text-gray-600 border-gray-200 hover:border-black"
+                        }`}
                       >
                         {color}
                       </button>
@@ -198,33 +224,45 @@ const ProductDetails = () => {
                 <h3 className="text-[16px] font-bold uppercase tracking-widest text-gray-700 mb-2">
                   Product Description
                 </h3>
-                <p className="whitespace-pre-line text-[12]">{product.fabric}</p>
+                <p className="whitespace-pre-line text-[12px]">
+                  {product.fabric}
+                </p>
               </div>
             )}
 
-            <div>
+            {/* ACTION BUTTONS (ADD TO CART & ORDER NOW) */}
+            <div className="space-y-3 pt-2">
+              {/* ADD TO CART BUTTON */}
               <button
                 disabled={product.inStock === false}
                 onClick={handleAddToCart}
-                className={`w-full p-4 text-[12px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase py-2.5 sm:py-3 font-medium transition-all duration-300 ease-in-out cursor-pointer
-       
-      relative opacity-100 translate-y-0 mt-2 block
-      
-      md:absolute md:bottom-0 md:left-0 md:mt-0 md:translate-y-full md:group-hover:translate-y-0
-      
-      ${
-        product.inStock === false
-          ? "bg-gray-200 text-gray-400 cursor-not-allowed" // ডিজেবল স্টেট
-          : "bg-black text-white hover:bg-neutral-900 md:bg-black/80" // একটিভ স্টেট
-      }`}
+                className={`w-full py-4 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-all duration-300 ease-in-out cursor-pointer border ${
+                  product.inStock === false
+                    ? "bg-gray-200 text-gray-400 border-gray-200 cursor-not-allowed"
+                    : "bg-white text-black border-black hover:bg-black hover:text-white"
+                }`}
               >
                 {product.inStock === false ? "Sold Out" : "Add to Cart"}
+              </button>
+
+              {/* ORDER NOW BUTTON */}
+              <button
+                disabled={product.inStock === false}
+                onClick={handleOrderNow}
+                className={`w-full py-4 text-xs sm:text-sm tracking-[0.2em] uppercase font-bold transition-all duration-300 ease-in-out cursor-pointer ${
+                  product.inStock === false
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-black text-white hover:bg-neutral-800 shadow-md active:scale-[0.99]"
+                }`}
+              >
+                {product.inStock === false ? "Out of Stock" : "Order Now"}
               </button>
             </div>
           </div>
         </div>
-        <CartSidebar></CartSidebar>
+        <CartSidebar />
       </div>
+      <Footer></Footer>
     </div>
   );
 };

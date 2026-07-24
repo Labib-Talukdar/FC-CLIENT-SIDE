@@ -1,6 +1,7 @@
 import React from "react";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { getImageUrl } from "../../pages/utils/getImageUrl";
 
 const CartSidebar = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const CartSidebar = () => {
                 🎉 You qualify for free shipping!
               </span>
             ) : (
-              `Spend Rs. ${(freeShippingLimit - subtotal).toLocaleString()} more for FREE SHIPPING`
+              `Spend Tk. ${(freeShippingLimit - subtotal).toLocaleString()} more for FREE SHIPPING`
             )}
           </p>
           <div className="w-full h-1.5 bg-gray-200 rounded-full mt-2 overflow-hidden">
@@ -86,7 +87,7 @@ const CartSidebar = () => {
                 {/* প্রোডাক্ট ইমেজ */}
                 <div className="w-20 aspect-[3/4] bg-gray-50 border border-gray-100 overflow-hidden flex-shrink-0">
                   <img
-                    src={`${import.meta.env.VITE_API_URL}${item.mainImage}`}
+                    src={getImageUrl(item.mainImage)}
                     alt={item.title}
                     className="w-full h-full object-cover object-top"
                   />
@@ -148,7 +149,7 @@ const CartSidebar = () => {
 
                     {/* সিঙ্গেল/মাল্টিপল টোটাল প্রাইস */}
                     <span className="text-xs font-semibold tracking-wider text-neutral-900">
-                      Rs. {(item.price * item.quantity).toLocaleString()}
+                      Tk. {(item.price * item.quantity).toLocaleString()}
                     </span>
                   </div>
                 </div>
@@ -165,7 +166,7 @@ const CartSidebar = () => {
                 Subtotal
               </span>
               <span className="text-base font-bold tracking-wider">
-                Rs. {subtotal.toLocaleString()}
+                Tk. {subtotal.toLocaleString()}
               </span>
             </div>
 
