@@ -322,7 +322,7 @@
 
 import React from 'react';
 import { FiPhone, FiMail, FiMapPin } from 'react-icons/fi';
-import { FaFacebookF, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaYoutube,FaTiktok  } from 'react-icons/fa';
 
 // 🖼️ আপনার প্রজেক্টের ব্যাকগ্রাউন্ড ইমেজের সঠিক Path টা এখানে দিন
 import footerBg from '../../assets/fashion classy-ft.png'; // Path টা আপনার ফোল্ডার অনুযায়ী চেঞ্জ করে নিন
@@ -396,14 +396,17 @@ const Footer = () => {
 
             {/* সোশ্যাল আইকন */}
             <div className="flex items-center gap-4 pt-8 border-t border-white/15 mt-8">
-              <a href="#" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
+              <a href="https://www.facebook.com/fashionclassybd" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
                 <FaFacebookF size={17} />
               </a>
-              <a href="#" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
+              <a href="https://www.instagram.com/fashionclassybd?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
                 <FaInstagram size={18} />
               </a>
-              <a href="#" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
+              <a href="https://www.youtube.com/@Fashion_Classy" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
                 <FaYoutube size={18} />
+              </a>
+              <a href="https://www.tiktok.com/@fashionclassybd?is_from_webapp=1&sender_device=pc" className="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all duration-300 shadow-md">
+                <FaTiktok  size={18} />
               </a>
             </div>
           </div>
