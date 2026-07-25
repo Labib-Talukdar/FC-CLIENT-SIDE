@@ -459,7 +459,7 @@ const Footer = () => {
       <div className="w-full bg-black/85 backdrop-blur-md py-8 border-t border-white/15 relative z-10">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-[13px] sm:text-[15px] font-semibold text-gray-300 uppercase tracking-[0.25em]">
-            Copyright © 2026 <span className="text-white font-bold">LABIB TALUKDAR</span>. All rights reserved.
+            Copyright © 2026 <span className="text-white font-bold">Fashion Classy</span>. All rights reserved.
           </p>
         </div>
       </div>
