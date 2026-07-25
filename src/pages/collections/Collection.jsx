@@ -354,8 +354,8 @@ const Collection = () => {
                               : product.mainImage.startsWith("http")
                               ? product.mainImage
                               : product.mainImage.startsWith("/")
-                              ? `${import.meta.env.VITE_API_URL || "https://fc-server-side.onrender.com"}${product.mainImage}`
-                              : `${import.meta.env.VITE_API_URL || "https://fc-server-side.onrender.com"}/${product.mainImage}`
+                              ? `${import.meta.env.VITE_API_URL || "https://fc-server-side-1.onrender.com"}${product.mainImage}`
+                              : `${import.meta.env.VITE_API_URL || "https://fc-server-side-1.onrender.com"}/${product.mainImage}`
                           }
                           alt={product?.title || "Product Image"}
                           onClick={() => navigate(`/product/${product._id}`)}
