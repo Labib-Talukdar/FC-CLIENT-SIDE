@@ -9,8 +9,9 @@ const AnnouncementBar = () => {
           ✨ ELEGANCE IS PURE — <strong className="text-amber-400 font-bold">100% ORIGINAL PAKISTANI COLLECTIONS</strong> ONLY
         </span>
         
-        <span className="mx-8 inline-flex items-center gap-2">
-          💎 NO MASTER COPIES — <span className="text-amber-300">AUTHENTIC & EXCLUSIVE DESIGNER WEAR</span>
+         <span className="mx-8 inline-flex items-center gap-2">
+          💎 Fashion Classy: <span className="text-amber-300">Wear authentic luxury, feel classy every single day</span>
+            
         </span>
         
         <span className="mx-8 inline-flex items-center gap-2">
