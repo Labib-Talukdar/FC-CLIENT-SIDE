@@ -745,6 +745,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import CartSidebar from "../../components/cartsidebar/cardSidebar";
 import { FiFilter, FiX, FiRefreshCw } from "react-icons/fi";
 import Footer from "../../components/foter/Footer";
+import RecentlyViewed from "../../components/recentlyviewed/RecentlyViewed";
 
 const Collection = () => {
   const [products, setProducts] = useState([]);
@@ -1237,7 +1238,9 @@ const Collection = () => {
           </div>
         </div>
         <CartSidebar />
+        
       </div>
+      <RecentlyViewed></RecentlyViewed>
       <Footer />
     </div>
   );

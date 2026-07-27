@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // আপনার assets ফোল্ডার থেকে ছবিগুলো ইম্পোর্ট করুন
  
 import image1 from '../../assets/banner-1.png'
-import image2 from '../../assets/Classy-Banner-2.png'
+import image2 from '../../assets/Fashion-classy img-2.png'
 import image3 from '../../assets/banner-3.png'
 import { useNavigate } from 'react-router-dom';
 
