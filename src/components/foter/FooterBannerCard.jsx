@@ -96,7 +96,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiTruck } from 'react-icons/fi';
 
 // 🖼️ আপনার ব্যানার ব্যাকগ্রাউন্ড ইমেজের Path টি এখানে দিন
-import bannerBg from '../../assets/banner-2.png'; 
+import bannerBg from '../../assets/ground-1.png'; 
 
 const  FooterBannerCard = () => {
   const navigate = useNavigate();
