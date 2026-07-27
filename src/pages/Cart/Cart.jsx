@@ -3,7 +3,7 @@ import { useCart } from "../../context/CartContext";
 import { useNavigate, Link } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import { getImageUrl } from "../utils/getImageUrl";
-import { get } from "react-hook-form";
+// import { get } from "react-hook-form";
 import Footer from "../../components/foter/Footer";
 
 const Cart = () => {
@@ -11,8 +11,8 @@ const Cart = () => {
   const navigate = useNavigate();
 
   // ফ্রি শিপিং লিমিট (সাইডবারের মতোই ২০,০০০ টাকা)
-  const freeShippingLimit = 20000;
-  const progressPercent = Math.min((subtotal / freeShippingLimit) * 100, 100);
+  // const freeShippingLimit = 20000;
+  // const progressPercent = Math.min((subtotal / freeShippingLimit) * 100, 100);
 
   return (
    <div>
@@ -43,7 +43,7 @@ const Cart = () => {
           <div className="lg:col-span-2 space-y-6">
             
             {/* ফ্রি শিপিং প্রোগ্রেস বার (লিংকের মতো প্রিমিয়াম লুক) */}
-            <div className="p-5 border border-gray-100 bg-neutral-50/50 rounded-sm">
+            {/* <div className="p-5 border border-gray-100 bg-neutral-50/50 rounded-sm">
               <p className="text-xs tracking-wide text-neutral-800 font-medium">
                 {subtotal >= freeShippingLimit ? (
                   <span className="text-emerald-600 font-semibold">🎉 Congratulations! You qualify for free shipping.</span>
@@ -57,7 +57,7 @@ const Cart = () => {
                   className="h-full bg-emerald-500 transition-all duration-500 ease-out"
                 />
               </div>
-            </div>
+            </div> */}
 
             {/* প্রোডাক্ট টেবিল হেডার (ডেস্কটপের জন্য) */}
             <div className="hidden sm:grid grid-cols-5 text-[11px] tracking-widest uppercase text-gray-400 pb-3 border-b border-gray-100 font-bold">
@@ -145,7 +145,7 @@ const Cart = () => {
               <div className="flex justify-between text-sm">
                 <span className="text-gray-500">Shipping</span>
                 <span className="text-emerald-600 font-medium">
-                  {subtotal >= freeShippingLimit ? "FREE" : "Calculated at next step"}
+                  Calculated at next step
                 </span>
               </div>
               

@@ -116,7 +116,7 @@ const  FooterBannerCard = () => {
         }}
       >
         {/* ব্যাকগ্রাউন্ড ওভারলে */}
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]"></div>
+        <div className="absolute "></div>
       </div>
 
       {/* 👑 CARDS CONTAINER */}
@@ -153,12 +153,12 @@ const  FooterBannerCard = () => {
 
             {/* বড় সাইজের Free Delivery টেক্সট */}
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-wider text-red-500 mb-3 drop-shadow-xl group-hover:scale-105 transition-transform">
-              Free Delivery
+                NATIONWIDE DELIVERY
             </h2>
 
             {/* ছোট সাইজের শর্ত টেক্সট */}
             <p className="text-base sm:text-lg lg:text-xl font-medium tracking-widest text-gray-200 uppercase mt-2">
-              On orders over <span className="text-white font-bold border-b-2 border-red-500">20,000 TK</span>
+              Available oll over<span className="text-white font-bold border-b-2 border-red-500">  Bangladesh</span>
             </p>
           </div>
 

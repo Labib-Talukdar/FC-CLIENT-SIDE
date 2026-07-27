@@ -331,6 +331,7 @@ const Navbar = () => {
     { name: "Chiffon 2pis" },
     { name: "Mona Embroidery" },
     { name: "Semi Bridal Boutique" },
+    { name: "Boutique Collections" },
     { 
       name: "Cotton Collections",
       // subCategories: ["Singles", "2 Piece", "3 Piece"]

@@ -169,7 +169,7 @@ const ProductDetails = () => {
                         key={size}
                         onClick={() => !isOutOfStock && setSelectedSize(size)}
                         disabled={isOutOfStock}
-                        className={`px-4 w-16 h-12 py-2 text-xs font-medium border transition-all tracking-wider uppercase relative ${
+                        className={`px-4 w-20 h-12 py-2 text-xs font-medium border transition-all tracking-wider uppercase relative ${
                           isOutOfStock
                             ? "text-gray-400 border-gray-300 bg-[linear-gradient(to_top_right,transparent_49%,#fca5a5_49%,#fca5a5_51%,transparent_51%)] cursor-not-allowed"
                             : isSelected
@@ -222,10 +222,30 @@ const ProductDetails = () => {
             {product.fabric && (
               <div className="text-gray-600 text-xs leading-relaxed tracking-wide space-y-2 border-b border-gray-100 pb-6">
                 <h3 className="text-[16px] font-bold uppercase tracking-widest text-gray-700 mb-2">
-                  Product Description
+                  Product Fabric
                 </h3>
                 <p className="whitespace-pre-line text-[12px]">
                   {product.fabric}
+                </p>
+              </div>
+            )}
+            {product.description && (
+              <div className="text-gray-600 text-xs leading-relaxed tracking-wide space-y-2 border-b border-gray-100 pb-6">
+                <h3 className="text-[16px] font-bold uppercase tracking-widest text-gray-700 mb-2">
+                  Product Description
+                </h3>
+                <p className="whitespace-pre-line text-[12px]">
+                  {product.description}
+                </p>
+              </div>
+            )}
+            {product.disclaimer && (
+              <div className="text-gray-600 text-xs leading-relaxed tracking-wide space-y-2 border-b border-gray-100 pb-6">
+                <h3 className="text-[16px] font-bold uppercase tracking-widest text-gray-700 mb-2">
+                  Product Disclaimer
+                </h3>
+                <p className="whitespace-pre-line text-[12px]">
+                  {product.disclaimer}
                 </p>
               </div>
             )}

@@ -16,8 +16,8 @@ const CartSidebar = () => {
   } = useCart();
 
   // ফ্রি শিপিং প্রোগ্রেস বারের লিমিট (যেমন: ২০,০০০ টাকার ওপরে ফ্রি শিপিং)
-  const freeShippingLimit = 20000;
-  const progressPercent = Math.min((subtotal / freeShippingLimit) * 100, 100);
+  // const freeShippingLimit = 20000;
+  // const progressPercent = Math.min((subtotal / freeShippingLimit) * 100, 100);
 
   return (
     <>
@@ -54,7 +54,7 @@ const CartSidebar = () => {
         </div>
 
         {/* ফ্রি শিপিং প্রোগ্রেস বার (স্ক্রিনশটের মতো) */}
-        <div className="px-5 py-4 border-b border-gray-50 bg-neutral-50/50">
+        {/* <div className="px-5 py-4 border-b border-gray-50 bg-neutral-50/50">
           <p className="text-[11px] tracking-wide text-neutral-700 font-medium">
             {subtotal >= freeShippingLimit ? (
               <span className="text-emerald-600 font-semibold">
@@ -70,7 +70,7 @@ const CartSidebar = () => {
               className="h-full bg-emerald-500 transition-all duration-500 ease-out"
             />
           </div>
-        </div>
+        </div> */}
 
         {/* কার্ট আইটেম লিস্ট এরিয়া */}
         <div className="flex-1 overflow-y-auto p-5 space-y-5 division-y division-gray-100">
