@@ -66,7 +66,7 @@ const  FooterBannerCard = () => {
 
             {/* ছোট সাইজের শর্ত টেক্সট */}
             <p className="text-base sm:text-lg lg:text-xl font-medium tracking-widest text-gray-200 uppercase mt-2">
-               PREMIUM DELIVERY TO DESTINATIONS<span className="text-white font-bold border-b-2 border-red-500">   WORLDWIDE</span>
+               EXPRESS DELIVERY TO DESTINATIONS<span className="text-white font-bold border-b-2 border-red-500">   WORLDWIDE</span>
             </p>
           </div>
 
