@@ -418,8 +418,8 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4 text-[16px] lg:text-[18px] font-medium tracking-wide text-gray-200">
               <li><a href="/customer/support" className="hover:text-amber-400 transition-colors block py-1">Customer Support</a></li>
-              <li><a href="/exchange-policy" className="hover:text-amber-400 transition-colors block py-1">Shipping Information</a></li>
-              <li><a href="/shipping-info" className="hover:text-amber-400 transition-colors block py-1">Exchange Policy</a></li>
+              <li><a href="/shipping-info" className="hover:text-amber-400 transition-colors block py-1">Shipping Information</a></li>
+              <li><a href="/exchange-policy" className="hover:text-amber-400 transition-colors block py-1">Exchange Policy</a></li>
               <li><a href="/terms-conditions" className="hover:text-amber-400 transition-colors block py-1">Terms And Conditions</a></li>
             </ul>
           </div>

@@ -13,7 +13,7 @@ const ShippingInfo = () => {
         <div>
           <h2 className="text-xl font-semibold text-amber-900 mb-2">🚚 Delivery Charge & Timeline</h2>
           <ul className="list-disc pl-5 space-y-2 text-slate-700">
-            <li><strong>Inside Dhaka:</strong> Delivery within 24–48 houTk. Charge: ৳80.</li>
+            <li><strong>Inside Dhaka:</strong> Delivery within 24–48 houTk. Charge: ৳100.</li>
             <li><strong>Outside Dhaka:</strong> Delivery within 2–4 business days. Charge: ৳150.</li>
           </ul>
         </div>
