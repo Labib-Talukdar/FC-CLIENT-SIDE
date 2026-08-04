@@ -1,15 +1,14 @@
  
 
 
-
-
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 // import { useCart } from "../../context/CartContext";
 // import { useSearchParams, useNavigate } from "react-router-dom";
 // import CartSidebar from "../../components/cartsidebar/cardSidebar";
-// import { FiFilter, FiX } from "react-icons/fi";
+// import { FiFilter, FiX, FiRefreshCw } from "react-icons/fi";
 // import Footer from "../../components/foter/Footer";
+// import RecentlyViewed from "../../components/recentlyviewed/RecentlyViewed";
 
 // const Collection = () => {
 //   const [products, setProducts] = useState([]);
@@ -18,17 +17,17 @@
 //   const navigate = useNavigate();
 
 //   // ফিল্টারিং স্টেট
-//   const [selectedColors, setSelectedColors] = useState([]);
+//   const [selectedColors, setSelectedColors] = useState(productData?.colors?.[0] || "Standard" );
 //   const [selectedSizes, setSelectedSizes] = useState([]);
 //   const [selectedCategory, setSelectedCategory] = useState(
 //     searchParams.get("category") || ""
 //   );
+//   const [selectedSubCategory, setSelectedSubCategory] = useState(
+//     searchParams.get("subCategory") || ""
+//   );
 //   const [categories, setCategories] = useState([]);
 
 //   // 💰 প্রাইস ফিল্টার স্টেট
-//   // maxPrice      -> ডাটা থেকে পাওয়া সর্বোচ্চ দাম
-//   // priceRange    -> "কমিটেড" ভ্যালু, এটাই আসলে প্রোডাক্ট ফিল্টার/ফেচ ট্রিগার করে
-//   // sliderValue   -> স্লাইডার ড্র্যাগ করার সময় শুধু চোখে দেখানোর জন্য (লাইভ), ছাড়ার আগ পর্যন্ত ফিল্টার আপডেট হয় না
 //   const [maxPrice, setMaxPrice] = useState(10000);
 //   const [priceRange, setPriceRange] = useState(10000);
 //   const [sliderValue, setSliderValue] = useState(10000);
@@ -45,10 +44,12 @@
 //   const [selectedQuickSize, setSelectedQuickSize] = useState("");
 //   const [selectedQuickColor, setSelectedQuickColor] = useState("");
 
-//   // ১. URL ক্যাটাগরি আপডেট
+//   // ১. URL থেকে ক্যাটাগরি ও সাব-ক্যাটাগরি আপডেট
 //   useEffect(() => {
 //     const categoryFromUrl = searchParams.get("category");
+//     const subCategoryFromUrl = searchParams.get("subCategory");
 //     setSelectedCategory(categoryFromUrl || "");
+//     setSelectedSubCategory(subCategoryFromUrl || "");
 //   }, [searchParams]);
 
 //   // ২. ক্যাটাগরি লোড করা
@@ -68,9 +69,6 @@
 //   }, []);
 
 //   // ৩. প্রোডাক্ট ডাটা ফেচিং ও ফিল্টারিং
-//   // ⚠️ লক্ষ্য করুন: dependency array-তে এখনো "priceRange" আছে, "sliderValue" নেই।
-//   // মানে স্লাইডার ড্র্যাগ করার সময় প্রতিটা পিক্সেল মুভমেন্টে এই ইফেক্ট রি-রান হবে না,
-//   // শুধুমাত্র ইউজার হাত ছাড়ার (mouse up / touch end) পরে priceRange আপডেট হলে তখন রান হবে।
 //   useEffect(() => {
 //     const fetchProducts = async () => {
 //       setLoading(true);
@@ -80,6 +78,7 @@
 //         const response = await axios.get(url, {
 //           params: {
 //             category: selectedCategory || undefined,
+//             subCategory: selectedSubCategory || undefined,
 //           },
 //         });
 
@@ -109,7 +108,7 @@
 //           );
 //         }
 
-//         // কমিটেড প্রাইস দিয়ে ফিল্টারিং (শুধু হাত ছাড়ার পর আপডেট হয়)
+//         // প্রাইস ফিল্টারিং
 //         data = data.filter((product) => (product.price || 0) <= priceRange);
 
 //         setProducts(data);
@@ -122,7 +121,7 @@
 //     };
 
 //     fetchProducts();
-//   }, [selectedColors, selectedSizes, selectedCategory, priceRange]);
+//   }, [selectedColors, selectedSizes, selectedCategory, selectedSubCategory, priceRange]);
 
 //   const handleAddToCart = (product) => {
 //     if (!selectedQuickSize || !selectedQuickColor) {
@@ -135,6 +134,7 @@
 
 //   const handleCategoryChange = (value) => {
 //     setSelectedCategory(value);
+//     setSelectedSubCategory("");
 //     if (value) {
 //       setSearchParams({ category: value });
 //     } else {
@@ -158,22 +158,21 @@
 //     }
 //   };
 
-//   // শুধু ভিজ্যুয়াল আপডেট — এখনো ফিল্টার/ফেচ ট্রিগার হয়নি
 //   const handlePriceDrag = (e) => {
 //     setSliderValue(Number(e.target.value));
 //   };
 
-//   // ইউজার হাত ছাড়লে (mouse up / touch end) অথবা কীবোর্ড দিয়ে ভ্যালু ছাড়লে
-//   // — তখনই আসল ফিল্টার কমিট হয়ে প্রোডাক্ট লিস্ট আপডেট হয়
 //   const commitPriceRange = () => {
 //     setIsDraggingPrice(false);
 //     setPriceRange(sliderValue);
 //   };
 
+//   // 🧹 সব ফিল্টার ক্লিয়ার করার ফাংশন
 //   const handleClearAll = () => {
 //     setSelectedColors([]);
 //     setSelectedSizes([]);
 //     setSelectedCategory("");
+//     setSelectedSubCategory("");
 //     setPriceRange(maxPrice);
 //     setSliderValue(maxPrice);
 //     setSearchParams({});
@@ -190,13 +189,20 @@
 //     "Mustard",
 //   ];
 //   const filterSizes = [
-//     "XS / 34",
-//     "S / 36",
-//     "M / 38",
-//     "L / 40",
-//     "XL / 42",
-//     "XXL / 44",
+//     "S 36-38",
+//     "M 40-42",
+//     "L 44-46",
+//     "XL 46-48"
+  
 //   ];
+
+//   // কোনো ফিল্টার একটিভ আছে কিনা তা চেক করার কন্ডিশন
+//   const hasActiveFilters =
+//     selectedColors.length > 0 ||
+//     selectedSizes.length > 0 ||
+//     selectedCategory !== "" ||
+//     selectedSubCategory !== "" ||
+//     sliderValue < maxPrice;
 
 //   return (
 //     <div>
@@ -204,7 +210,9 @@
 //         {/* হেডার */}
 //         <div className="text-center border-b border-gray-100 pb-6 mb-8">
 //           <h1 className="text-2xl md:text-3xl font-light tracking-[0.25em] uppercase text-gray-900">
-//             Ready To Wear
+//             {selectedSubCategory
+//               ? `${selectedCategory} - ${selectedSubCategory}`
+//               : selectedCategory || "Ready To Wear"}
 //           </h1>
 //           <p className="text-[11px] md:text-xs tracking-[0.2em] text-gray-400 uppercase mt-2">
 //             FC Luxury Premium Pret Kaftan &amp; Suits
@@ -212,21 +220,28 @@
 //         </div>
 
 //         {/* 📱 মোবাইল ফিল্টার বাটন */}
-//         <div className="lg:hidden w-full mb-5">
+//         <div className="lg:hidden w-full mb-5 flex gap-2">
 //           <button
 //             onClick={() => setIsSidebarOpen(true)}
-//             className="w-full py-3 px-5 bg-black text-white rounded-lg flex items-center justify-between text-xs font-bold uppercase tracking-widest hover:bg-neutral-800 active:scale-[0.99] transition-all shadow-sm"
+//             className="flex-1 py-3 px-5 bg-black text-white rounded-lg flex items-center justify-between text-xs font-bold uppercase tracking-widest hover:bg-neutral-800 active:scale-[0.99] transition-all shadow-sm"
 //           >
 //             <span className="flex items-center gap-2">
 //               <FiFilter size={14} /> Filter Products
 //             </span>
-//             {(selectedColors.length > 0 ||
-//               selectedSizes.length > 0 ||
-//               selectedCategory ||
-//               priceRange < maxPrice) && (
+//             {hasActiveFilters && (
 //               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
 //             )}
 //           </button>
+
+//           {/* মোবাইল ভিউতে ফিল্টার অ্যাক্টিভ থাকলে ক্লিয়ার বাটন */}
+//           {hasActiveFilters && (
+//             <button
+//               onClick={handleClearAll}
+//               className="py-3 px-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider hover:bg-red-100 border border-red-200 transition-all"
+//             >
+//               <FiRefreshCw size={13} /> Clear
+//             </button>
+//           )}
 //         </div>
 
 //         <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-5 gap-8 md:gap-10">
@@ -239,7 +254,9 @@
 //                 selectedColors={selectedColors}
 //                 selectedSizes={selectedSizes}
 //                 selectedCategory={selectedCategory}
+//                 selectedSubCategory={selectedSubCategory}
 //                 handleClearAll={handleClearAll}
+//                 hasActiveFilters={hasActiveFilters}
 //                 categories={categories}
 //                 handleCategoryChange={handleCategoryChange}
 //                 filterColors={filterColors}
@@ -288,9 +305,9 @@
 //                 selectedColors={selectedColors}
 //                 selectedSizes={selectedSizes}
 //                 selectedCategory={selectedCategory}
-//                 handleClearAll={() => {
-//                   handleClearAll();
-//                 }}
+//                 selectedSubCategory={selectedSubCategory}
+//                 handleClearAll={handleClearAll}
+//                 hasActiveFilters={hasActiveFilters}
 //                 categories={categories}
 //                 handleCategoryChange={handleCategoryChange}
 //                 filterColors={filterColors}
@@ -484,21 +501,24 @@
 //           </div>
 //         </div>
 //         <CartSidebar />
+        
 //       </div>
+//       <RecentlyViewed></RecentlyViewed>
 //       <Footer />
 //     </div>
 //   );
 // };
 
 // // =========================================================================
-// //  🎯 ফিল্টার সেকশন (রিলিজ-বেসড প্রাইস স্লাইডার — Drag করলেই আপডেট হয় না,
-// //  ছাড়লে/থামলে তবেই আপডেট হয়)
+// // 🎯 ফিল্টার সেকশন
 // // =========================================================================
 // const FilterContent = ({
 //   selectedColors,
 //   selectedSizes,
 //   selectedCategory,
+//   selectedSubCategory,
 //   handleClearAll,
+//   hasActiveFilters,
 //   categories,
 //   handleCategoryChange,
 //   filterColors,
@@ -516,20 +536,17 @@
 
 //   return (
 //     <div className="space-y-6 text-gray-900 bg-white rounded-xl">
-//       {/* ফিল্টার হেডার */}
+//       {/* 📌 ফিল্টার হেডার এবং স্পষ্ট ক্লিয়ার বাটন */}
 //       <div className="flex justify-between items-center border-b-2 border-gray-900 pb-3">
 //         <h2 className="text-xs font-bold uppercase tracking-widest text-gray-900 flex items-center gap-2">
 //           <FiFilter size={14} /> Filters
 //         </h2>
-//         {(selectedColors.length > 0 ||
-//           selectedSizes.length > 0 ||
-//           selectedCategory ||
-//           sliderValue < maxPrice) && (
+//         {hasActiveFilters && (
 //           <button
 //             onClick={handleClearAll}
-//             className="text-[10px] font-bold text-red-600 uppercase tracking-wider underline underline-offset-2 hover:text-red-700 transition-colors"
+//             className="flex items-center gap-1 text-[10px] font-bold text-red-600 uppercase tracking-wider bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-md transition-colors"
 //           >
-//             Reset All
+//             <FiRefreshCw size={11} /> Clear All
 //           </button>
 //         )}
 //       </div>
@@ -555,9 +572,17 @@
 //             </option>
 //           ))}
 //         </select>
+
+//         {selectedSubCategory && (
+//           <div className="mt-2 flex items-center justify-between bg-neutral-100 border border-neutral-200 px-3 py-1.5 rounded-md">
+//             <span className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">
+//               Sub: {selectedSubCategory}
+//             </span>
+//           </div>
+//         )}
 //       </div>
 
-//       {/* 💰 ২. প্রাইস ফিল্টার — ছেড়ে দিলে তবেই আপডেট হবে */}
+//       {/* 💰 ২. প্রাইস ফিল্টার */}
 //       <div className="border-t border-gray-200 pt-5">
 //         <div className="flex justify-between items-center mb-3">
 //           <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900">
@@ -574,8 +599,6 @@
 //           </span>
 //         </div>
 
-//         {/* ড্র্যাগেবল স্লাইডার — মুভ করার সময় শুধু ভিজ্যুয়াল আপডেট,
-//             mouse up / touch end / keyboard release এ আসল ফিল্টার কমিট হয় */}
 //         <input
 //           type="range"
 //           min="0"
@@ -667,7 +690,7 @@
 // };
 
 // // =========================================================================
-// //  🌟 স্কেলেটন লোডার্স (Shimmer Effect)
+// // 🌟 স্কেলেটন লোডার্স
 // // =========================================================================
 // const ProductSkeleton = () => (
 //   <div className="animate-pulse flex flex-col bg-white">
@@ -738,7 +761,17 @@
 
 
 
- import React, { useState, useEffect } from "react";
+
+
+
+
+
+
+
+
+
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useCart } from "../../context/CartContext";
 import { useSearchParams, useNavigate } from "react-router-dom";
@@ -753,7 +786,7 @@ const Collection = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // ফিল্টারিং স্টেট
+  // 🔹 ফিল্টারিং স্টেট
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(
@@ -860,12 +893,12 @@ const Collection = () => {
     fetchProducts();
   }, [selectedColors, selectedSizes, selectedCategory, selectedSubCategory, priceRange]);
 
+  // 🛒 আপডেট করা handleAddToCart ফাংশন (যা কখনো অনাকাঙ্ক্ষিত Alert দিবে না)
   const handleAddToCart = (product) => {
-    if (!selectedQuickSize || !selectedQuickColor) {
-      alert("Please select both Size and Color!");
-      return;
-    }
-    addToCart(product, selectedQuickSize, selectedQuickColor);
+    const sizeToAdd = selectedQuickSize || product?.sizes?.[0] || "Standard";
+    const colorToAdd = selectedQuickColor || product?.colors?.[0] || "Standard";
+
+    addToCart(product, sizeToAdd, colorToAdd);
     setActiveQuickAddId(null);
   };
 
@@ -904,7 +937,7 @@ const Collection = () => {
     setPriceRange(sliderValue);
   };
 
-  // 🧹 সব ফিল্টার ক্লিয়ার করার ফাংশন
+  // 🧹 সব ফিল্টার ক্লিয়ার করার ফাংশন
   const handleClearAll = () => {
     setSelectedColors([]);
     setSelectedSizes([]);
@@ -925,15 +958,14 @@ const Collection = () => {
     "Pink",
     "Mustard",
   ];
+
   const filterSizes = [
     "S 36-38",
     "M 40-42",
     "L 44-46",
     "XL 46-48"
-  
   ];
 
-  // কোনো ফিল্টার একটিভ আছে কিনা তা চেক করার কন্ডিশন
   const hasActiveFilters =
     selectedColors.length > 0 ||
     selectedSizes.length > 0 ||
@@ -970,7 +1002,6 @@ const Collection = () => {
             )}
           </button>
 
-          {/* মোবাইল ভিউতে ফিল্টার অ্যাক্টিভ থাকলে ক্লিয়ার বাটন */}
           {hasActiveFilters && (
             <button
               onClick={handleClearAll}
@@ -1108,8 +1139,8 @@ const Collection = () => {
                               : product.mainImage.startsWith("http")
                               ? product.mainImage
                               : product.mainImage.startsWith("/")
-                              ? `${import.meta.env.VITE_API_URL || "https://fc-server-side-1.onrender.com"}${product.mainImage}`
-                              : `${import.meta.env.VITE_API_URL || "https://fc-server-side-1.onrender.com"}/${product.mainImage}`
+                              ? `${import.meta.env.VITE_API_URL || ""}${product.mainImage}`
+                              : `${import.meta.env.VITE_API_URL || ""}/${product.mainImage}`
                           }
                           alt={product?.title || "Product Image"}
                           onClick={() => navigate(`/product/${product._id}`)}
@@ -1132,8 +1163,8 @@ const Collection = () => {
                             disabled={product?.inStock === false}
                             onClick={() => {
                               setActiveQuickAddId(product._id);
-                              setSelectedQuickSize(product?.sizes?.[0] || "");
-                              setSelectedQuickColor(product?.colors?.[0] || "");
+                              setSelectedQuickSize(product?.sizes?.[0] || "Standard");
+                              setSelectedQuickColor(product?.colors?.[0] || "Standard");
                             }}
                             className={`absolute bottom-0 left-0 w-full text-[11px] tracking-[0.2em] uppercase py-3.5 font-bold transition-transform duration-300 ease-in-out ${
                               product.inStock === false
@@ -1159,47 +1190,53 @@ const Collection = () => {
                             </div>
 
                             <div className="space-y-4 my-auto">
-                              <div>
-                                <p className="text-[10px] tracking-wider text-gray-500 uppercase mb-1.5 font-bold">
-                                  Size:
-                                </p>
-                                <div className="flex flex-wrap gap-1.5 justify-center">
-                                  {product.sizes?.map((size) => (
-                                    <button
-                                      key={size}
-                                      onClick={() => setSelectedQuickSize(size)}
-                                      className={`px-2.5 py-1 text-[10px] border rounded transition-all ${
-                                        selectedQuickSize === size
-                                          ? "border-black bg-black text-white font-bold"
-                                          : "border-gray-200 text-gray-600 hover:border-black"
-                                      }`}
-                                    >
-                                      {size}
-                                    </button>
-                                  ))}
+                              {/* সাইজ সেকশন থাকলে দেখাবে */}
+                              {product?.sizes && product.sizes.length > 0 && (
+                                <div>
+                                  <p className="text-[10px] tracking-wider text-gray-500 uppercase mb-1.5 font-bold">
+                                    Size:
+                                  </p>
+                                  <div className="flex flex-wrap gap-1.5 justify-center">
+                                    {product.sizes.map((size) => (
+                                      <button
+                                        key={size}
+                                        onClick={() => setSelectedQuickSize(size)}
+                                        className={`px-2.5 py-1 text-[10px] border rounded transition-all ${
+                                          selectedQuickSize === size
+                                            ? "border-black bg-black text-white font-bold"
+                                            : "border-gray-200 text-gray-600 hover:border-black"
+                                        }`}
+                                      >
+                                        {size}
+                                      </button>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
+                              )}
 
-                              <div>
-                                <p className="text-[10px] tracking-wider text-gray-500 uppercase mb-1.5 font-bold">
-                                  Color:
-                                </p>
-                                <div className="flex flex-wrap gap-1.5 justify-center">
-                                  {product.colors?.map((color) => (
-                                    <button
-                                      key={color}
-                                      onClick={() => setSelectedQuickColor(color)}
-                                      className={`px-2.5 py-1 text-[10px] border rounded transition-all ${
-                                        selectedQuickColor === color
-                                          ? "border-black bg-black text-white font-bold"
-                                          : "border-gray-200 text-gray-600 hover:border-black"
-                                      }`}
-                                    >
-                                      {color}
-                                    </button>
-                                  ))}
+                              {/* কালার সেকশন থাকলে দেখাবে */}
+                              {product?.colors && product.colors.length > 0 && (
+                                <div>
+                                  <p className="text-[10px] tracking-wider text-gray-500 uppercase mb-1.5 font-bold">
+                                    Color:
+                                  </p>
+                                  <div className="flex flex-wrap gap-1.5 justify-center">
+                                    {product.colors.map((color) => (
+                                      <button
+                                        key={color}
+                                        onClick={() => setSelectedQuickColor(color)}
+                                        className={`px-2.5 py-1 text-[10px] border rounded transition-all ${
+                                          selectedQuickColor === color
+                                            ? "border-black bg-black text-white font-bold"
+                                            : "border-gray-200 text-gray-600 hover:border-black"
+                                        }`}
+                                      >
+                                        {color}
+                                      </button>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
+                              )}
                             </div>
 
                             <button
@@ -1238,16 +1275,15 @@ const Collection = () => {
           </div>
         </div>
         <CartSidebar />
-        
       </div>
-      <RecentlyViewed></RecentlyViewed>
+      <RecentlyViewed />
       <Footer />
     </div>
   );
 };
 
 // =========================================================================
-// 🎯 ফিল্টার সেকশন
+// 🎯 ফিল্টার সেকশন কম্পোনেন্ট
 // =========================================================================
 const FilterContent = ({
   selectedColors,
@@ -1266,14 +1302,12 @@ const FilterContent = ({
   handlePriceDrag,
   commitPriceRange,
   isDraggingPrice,
-  setIsDraggingPrice,
   maxPrice,
 }) => {
   const percent = maxPrice > 0 ? Math.round((sliderValue / maxPrice) * 100) : 0;
 
   return (
     <div className="space-y-6 text-gray-900 bg-white rounded-xl">
-      {/* 📌 ফিল্টার হেডার এবং স্পষ্ট ক্লিয়ার বাটন */}
       <div className="flex justify-between items-center border-b-2 border-gray-900 pb-3">
         <h2 className="text-xs font-bold uppercase tracking-widest text-gray-900 flex items-center gap-2">
           <FiFilter size={14} /> Filters
@@ -1288,7 +1322,6 @@ const FilterContent = ({
         )}
       </div>
 
-      {/* ১. ক্যাটাগরি ফিল্টার */}
       <div>
         <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">
           Collection
@@ -1319,7 +1352,6 @@ const FilterContent = ({
         )}
       </div>
 
-      {/* 💰 ২. প্রাইস ফিল্টার */}
       <div className="border-t border-gray-200 pt-5">
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900">
@@ -1358,15 +1390,8 @@ const FilterContent = ({
           <span>Tk. 0</span>
           <span>Tk. {maxPrice.toLocaleString()}</span>
         </div>
-
-        {isDraggingPrice && (
-          <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-1.5">
-            Release to apply
-          </p>
-        )}
       </div>
 
-      {/* ৩. কালার ফিল্টার */}
       <div className="border-t border-gray-200 pt-5">
         <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">
           Color {selectedColors.length > 0 && `(${selectedColors.length})`}
@@ -1398,19 +1423,18 @@ const FilterContent = ({
         </div>
       </div>
 
-      {/* ৪. সাইজ ফিল্টার */}
       <div className="border-t border-gray-200 pt-5">
         <h3 className="text-xs font-bold uppercase tracking-wider text-gray-900 mb-2.5">
           Size {selectedSizes.length > 0 && `(${selectedSizes.length})`}
         </h3>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {filterSizes?.map((size) => {
             const isSelected = selectedSizes.includes(size);
             return (
               <button
                 key={size}
                 onClick={() => handleSizeToggle(size)}
-                className={`py-2.5 text-[10px] font-bold border uppercase tracking-wider transition-all rounded-md ${
+                className={`py-2.5 px-1 text-[10px] font-bold border uppercase tracking-wider transition-all rounded-md ${
                   isSelected
                     ? "bg-black text-white border-black shadow-md"
                     : "bg-white text-gray-700 border-gray-300 hover:border-black hover:bg-gray-50"

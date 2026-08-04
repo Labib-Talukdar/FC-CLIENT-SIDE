@@ -20,7 +20,7 @@ useEffect(() => {
     const addToCart = (product, selectedSize,selectedColor) => {
         setCartItems((prevItems) => {
             // check is color,id,size same 
-            const existingItemIndex = prevItems.findIndex(
+            const existingItemIndex = prevItems.findIndex(   
                 (item) => 
                     item._id === product._id && 
                 item.size === selectedSize && 
