@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 // আপনার ক্যাটাগরির ইমেজগুলো এখানে ইম্পোর্ট করুন
 import categoryImg1 from '../../assets/IMG MD-1.jpeg';
-import categoryImg2 from '../../assets/Fashion-classy md-2.jpeg';
+import categoryImg2 from '../../assets/Fashion-classy md-4.jpeg';
 import categoryImg3 from '../../assets/IMG MD-3.jpeg';
-import categoryImg4 from '../../assets/Fashion-classy md-4.jpeg';
+import categoryImg4 from '../../assets/Fashion-classy md-2.jpeg';
 import TrendingNow from './TrendingNow';
  
 
