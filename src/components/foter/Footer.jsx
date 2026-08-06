@@ -330,7 +330,7 @@ import footerBg from '../../assets/fashion classy-ft.png'; // Path টা আপ
 const Footer = () => {
   const menuCategories = [
     "Organza Items",
-    "Chiffon Items",
+    "Sale Items",
     "Gawn Collections",
     "Chiffon 2pis",
     "Mona Embroidery",
