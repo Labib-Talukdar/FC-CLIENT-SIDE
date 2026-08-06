@@ -477,7 +477,7 @@ const ProductDetails = () => {
       alert("Please select a Color!");
       return false;
     }
-    addToCart(product, selectedColor, selectedSize);
+    addToCart(product,selectedSize , selectedColor);
     return true;
   };
 
@@ -572,9 +572,25 @@ const ProductDetails = () => {
               <h1 className="text-xl md:text-2xl font-normal tracking-wide text-gray-800 leading-tight">
                 {product.title}
               </h1>
-              <p className="text-xl font-bold text-gray-900 mt-3 tracking-wider">
+              {/* <p className="text-xl font-bold text-gray-900 mt-3 tracking-wider">
                 Tk. {product.price?.toLocaleString()}
-              </p>
+              </p> */}
+
+              {/* PRODUCT PRICE SECTION (সংশোধিত) */}
+<div className="flex items-center gap-3 mt-3">
+  {/* ১. বর্তমান বিক্রয় মূল্য */}
+  <span className="text-xl font-bold text-neutral-900 tracking-wider">
+    Tk. {Number(product.price || 0).toLocaleString()}
+  </span>
+
+  {/* ২. অরিজিনাল প্রাইস (যদি থাকে এবং বিক্রয় মূল্যের চেয়ে বেশি হয়) */}
+  {Number(product.originalPrice) > Number(product.price) && (
+    <span className="text-sm sm:text-base text-red-500 font-medium line-through decoration-red-500">
+      Tk. {Number(product.originalPrice).toLocaleString()}
+    </span>
+  )}
+</div>
+             
             </div>
 
             {/* SIZE */}

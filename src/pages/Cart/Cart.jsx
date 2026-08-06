@@ -7,7 +7,7 @@ import { getImageUrl } from "../utils/getImageUrl";
 import Footer from "../../components/foter/Footer";
 
 const Cart = () => {
-  const { cartItems, updateQuantity, removeFromCart, subtotal, totalItems } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, subtotal, totalItems, } = useCart();
   const navigate = useNavigate();
 
   // ফ্রি শিপিং লিমিট (সাইডবারের মতোই ২০,০০০ টাকা)
@@ -113,7 +113,7 @@ const Cart = () => {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item._id, item.size, item.color, 1)}
+                        onClick={() => updateQuantity(item._id, item.color, item.size, 1)}
                         className="px-3 py-1.5 text-gray-500 hover:bg-gray-50 text-sm"
                       >
                         +
@@ -122,9 +122,26 @@ const Cart = () => {
                   </div>
 
                   {/* টোটাল প্রাইস (ডেস্কটপে ডানে যাবে) */}
-                  <div className="text-left sm:text-right text-sm font-semibold tracking-wider text-neutral-900">
+                  {/* <div className="text-left sm:text-right text-sm font-semibold tracking-wider text-neutral-900">
                     Tk. {(item.price * item.quantity).toLocaleString()}
-                  </div>
+                  </div> */}
+
+     {/* টোটাল প্রাইস ও ডিসকাউন্ট সেকশন */}
+<div className="flex flex-col sm:items-end justify-center gap-0.5 text-left sm:text-right">
+  
+  {/* ১. অরিজিনাল প্রাইস (যদি থাকে এবং তা সেলস প্রাইসের চেয়ে বেশি হয়) */}
+  {Number(item.originalPrice) > Number(item.price) && (
+    <span className="text-[12px] sm:text-[13px] text-red-500 font-medium line-through decoration-red-500 leading-tight">
+      Tk. {(Number(item.originalPrice) * item.quantity).toLocaleString()}
+    </span>
+  )}
+
+  {/* ২. বর্তমান বিক্রয় মূল্য (সবসময় কালো/গাঢ় রঙে থাকবে) */}
+  <span className="text-sm sm:text-base font-bold text-neutral-900 tracking-wider leading-tight">
+    Tk. {(Number(item.price || 0) * item.quantity).toLocaleString()}
+  </span>
+
+</div>
 
                 </div>
               ))}

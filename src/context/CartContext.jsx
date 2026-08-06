@@ -41,6 +41,7 @@ useEffect(() => {
                     _id: product._id,
                     title: product.title,
                     price: product.price,
+                    originalPrice: product.originalPrice,
                     mainImage: product.mainImage,
                     size: selectedSize,
                     color:selectedColor,

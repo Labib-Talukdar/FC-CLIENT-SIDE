@@ -1248,7 +1248,7 @@ const Collection = () => {
                           </div>
                         )}
                       </div>
-
+{/* 
                       <div className="text-center px-1.5 py-1 space-y-1.5">
                         <h1
                           onClick={() => navigate(`/product/${product._id}`)}
@@ -1266,7 +1266,38 @@ const Collection = () => {
                         <p className="text-[15px] sm:text-[16px] font-bold text-gray-900 tracking-wider">
                           Tk. {product.price?.toLocaleString()}
                         </p>
-                      </div>
+                      </div> */}
+ <div className="text-center px-1.5 py-1 space-y-1.5">
+  {/* লাইন ১: Title */}
+  <h1
+    onClick={() => navigate(`/product/${product._id}`)}
+    className="text-[15px] sm:text-[16px] font-medium text-gray-900 hover:text-[#b5832a] cursor-pointer tracking-wider uppercase line-clamp-2 min-h-[42px] transition-colors"
+  >
+    {product.title}
+  </h1>
+
+  {/* লাইন ২: SKU */}
+  {product.sku && (
+    <p className="text-[11px] text-gray-400 font-medium tracking-wide uppercase">
+      SKU: {product.sku}
+    </p>
+  )}
+
+  {/* লাইন ৩: Price Section (এক লাইনে পাশে পাশে) */}
+  <div className="flex flex-row items-center justify-center gap-2">
+    {/* অরিজিনাল প্রাইস (ডিসকাউন্ট থাকলে লাল রঙে কাটা দাগ সহ শো করবে) */}
+    {Number(product.originalPrice) > Number(product.price) && (
+      <p className="text-[13px] sm:text-[14px] text-red-500 font-medium line-through decoration-red-500 leading-tight">
+        Tk. {Number(product.originalPrice).toLocaleString()}
+      </p>
+    )}
+
+    {/* বর্তমান বিক্রয় মূল্য (সবসময় কালো রঙে থাকবে) */}
+    <p className="text-[16px] sm:text-[18px] font-bold text-black tracking-wider leading-tight">
+      Tk. {Number(product.price || 0).toLocaleString()}
+    </p>
+  </div>
+</div>
                     </div>
                   );
                 })}
