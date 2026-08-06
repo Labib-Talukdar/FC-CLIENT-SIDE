@@ -326,7 +326,7 @@ const Navbar = () => {
   // 🌟 সাব-ক্যাটাগরিসহ ক্যাটাগরি ডাটা স্ট্রাকচার
   const menuCategories = [
     { name: "Organza Items" },
-    { name: "Chiffon Items" },
+    { name: "Sale Items" },
     { name: "Gawn Collections" },
     { name: "Chiffon 2pis" },
     { name: "Mona Embroidery" },
